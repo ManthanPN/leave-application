@@ -1,0 +1,246 @@
+.manage-leaves-container {
+  margin: 0 auto;
+  padding-inline: 20px;
+  /* border-radius: 8px; */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  cursor: default;
+}
+
+.user-leave-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-list-border {
+  padding: 8px;
+  flex: 25%;
+  background-color: #ffffff;
+  max-height: 560px;
+  /* overflow-y: auto; */
+  /* border-radius: 5px; */
+  margin-bottom: 5px;
+}
+
+.leave-list-container {
+  padding: 8px;
+  flex: 75%;
+  background-color: #ffffff;
+  max-height: 560px;
+  overflow-y: auto;
+  /* border-radius: 5px; */
+  /* margin: 10px; */
+}
+
+.user-list {
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
+  max-height: 550px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  /* border-radius: 5px; */
+  /* border: 1px solid #b4b4b487; */
+  /* display: grid; */
+  /* grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); */
+  /* gap: 5px; */
+}
+
+.leave-list {
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
+  /* height: 560px; */
+  /* overflow-y: auto; */
+  background-color: #fff;
+  /* border-radius: 5px; */
+  /* border: 1px solid #b4b4b487; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.user-list::-webkit-scrollbar,
+.leave-list::-webkit-scrollbar {
+  width: 12px;
+  height: 10px;
+  background: transparent;
+}
+
+.user-list::-webkit-scrollbar-thumb,
+.leave-list::-webkit-scrollbar-thumb {
+  background-color: #c7c7c7;
+  border-radius: 8px;
+  border: 4px solid #fff;
+}
+
+.user-list::-webkit-scrollbar-thumb:hover,
+.leave-list::-webkit-scrollbar-thumb:hover {
+  background-color: #656565;
+}
+
+.user-list::-webkit-scrollbar-track,
+.leave-list::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.leave-display-item {
+  cursor: pointer;
+  padding-inline: 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 0.1px solid #d8d8d8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: filter 0.3s ease;
+  position: relative; 
+}
+
+.leave-display-item:hover {
+  border: 0.1px solid #212529;
+  color: #212529;
+}
+
+.selected {
+  border: 0.1px solid;
+  background-color: #212529;
+  color: #fff;
+}
+
+.selected:hover {
+  border: 0.1px solid;
+  background-color: #212529;
+  color: #fff;
+}
+
+.new-user {
+  background-color: #ffcc80;
+  box-shadow: 2px 5px 5px #ffcc80;
+}
+
+.notification-counter {
+  background-color: red;
+  color: white;
+  border-radius: 25%;
+  padding: 5px;
+  font-size: 12px;
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  display: inline-block;
+  min-width: 20px;
+  text-align: center;
+}
+
+.leave-display-info {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  width: 100%;
+}
+
+.label {
+  font-size: large;
+}
+
+.leave-no-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 1.5em;
+  color: #555;
+  margin: 0;
+}
+
+.leave-item {
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.145);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  transition: transform 0.1s ease;
+  min-width: 220px;
+  height: 220px;
+  border: 0.3px solid #fff;
+}
+
+.leave-item:hover {
+  background-color: #f0f0f0bf;
+  border: 0.3px solid #bdbdbd;
+}
+
+.leave-info p {
+  margin: 5px 0;
+  cursor: default;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status.approved {
+  color: green;
+}
+
+.status.rejected {
+  color: red;
+}
+
+.leave-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.leave-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 3px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.approve-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.approve-btn:hover {
+  background-color: #218838;
+}
+
+.reject-btn {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.reject-btn:hover {
+  background-color: #c82333;
+}
+
+.delete-btn {
+  background-color: transparent;
+  color: #dc3545;
+  top: 10px;
+  right: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.delete-btn:hover {
+  color: #c82333;
+}

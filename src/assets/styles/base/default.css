@@ -1,0 +1,41 @@
+:root {
+  --body-bg: #fff;
+  --brand-bg: #cf3229;
+  --green-bg: #169c69;
+  --green-bg-dark: #0e8557;
+  --gray-bg: #7f7f7f;
+  --lightgray-bg: #f1f5fa;
+  --teal-bg: #36bebc;
+  --primary-assets: #68788a;
+  --orange-bg: #f0ad4e;
+  --grid-header-bg: #fafafc;
+  --bg-sidebar: #efefef;
+  --light-red: #ff6643;
+  --text-primary: #2e4765;
+  --text-secondary: #696d77;
+  --text-muted: #828aa0;
+  --black: #000000;
+  --text-white: #ffffff;
+  --text-lightgray: #b5b5b5;
+  --text-teal: #35b7b6;
+  --text-red: #cf3229;
+  --text-blue: blue;
+  --grid-font-color: #374664;
+
+  --border-mediumgray: #b2bbc7;
+  --border-darkgray: #b6bac4;
+  --border-grid: #e6e6e6;
+  --primary-blue: #7092be;
+  --border-lightgray: #e2e6ee;
+  --scroll-track: #ebebeb;
+  --scroll-thumb:#cacaca;
+  --box-d-gray:#dbe2ea;
+  /* badges */
+
+
+  --badge-success: #28c76f;
+  --badge-danger: #ea5455;
+  --badge-info: #00cfe8;
+  --badge-warning: #ff9f43;
+  --badge-secondary: #82868b;
+}

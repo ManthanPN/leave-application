@@ -1,0 +1,103 @@
+.leave-form {
+  margin: 0 auto;
+  padding-top: 2em;
+  padding-inline: 5px;
+  overflow-y: auto;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 48%;
+  box-sizing: border-box;
+  margin-bottom: 1em;
+}
+
+.form-group:nth-child(odd) {
+  padding-right: 1%;
+}
+
+.form-group:nth-child(even) {
+  padding-left: 1%;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.leave-form label {
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.leave-form input,
+.leave-form textarea,
+.leave-form select {
+  width: 100%;
+  padding: 0.75em;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.leave-form input:focus,
+.leave-form textarea:focus,
+.leave-form select:focus {
+  border-color: #007BFF;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1em;
+}
+
+.form-actions .btn {
+  padding: 0.7em 1.5em;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-left: 1em;
+  transition: background-color border 0.3s ease;
+}
+
+.close-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.close-btn:hover {
+  background-color: #c82333;
+}
+
+.save-btn {
+  border: 3px solid #0f1721;
+  color: #0f1721;
+  font-weight: 600;
+}
+
+.save-btn:hover {
+  background-color: #0f1721;
+  border: 3px solid #0f1721;
+  color: white;
+}

@@ -1,0 +1,57 @@
+<div [className]="dropZoneClassName"
+     [class.ngx-file-drop__drop-zone--over]="isDraggingOverDropZone"
+     (drop)="dropFiles($event)"
+     (dragover)="onDragOver($event)"
+     (dragenter)="onDragEnter($event)"
+     (dragleave)="onDragLeave($event)">
+  <div [className]="contentClassName">
+    <input 
+      type="file" 
+      #fileSelector 
+      [accept]="accept" 
+      [attr.directory]="directory || undefined" 
+      [attr.webkitdirectory]="directory || undefined"
+      [attr.mozdirectory]="directory || undefined"
+      [attr.msdirectory]="directory || undefined"
+      [attr.odirectory]="directory || undefined"
+      [multiple]="true"
+      (change)="uploadFiles($event)" 
+      class="ngx-file-drop__file-input" 
+    />
+
+    <ng-template #defaultContentTemplate>
+      <div  class="ngx-file-drop__drop-zone-label">{{dropZoneLabel}}</div>
+      <div >
+        <input type="button" [className]="browseBtnClassName" value="{{browseBtnLabel}}" 
+        (click)="openFileSelector($event)" />
+      </div>
+    </ng-template>
+
+    <ng-template
+      [ngTemplateOutlet]="contentTemplate || defaultContentTemplate"
+      [ngTemplateOutletContext]="{ openFileSelector: openFileSelector }">
+    </ng-template>
+  </div>
+</div>
+@if(files.length >0) {
+<div class="upload-table">
+  <table class="table">
+      <thead>
+          <tr>
+              <th>Name</th>
+          </tr>
+      </thead>
+      <tbody class="upload-name-style">
+          <tr *ngFor="let item of files; let i=index">
+              <td><strong>{{ item.relativePath }}</strong></td>
+              <td class="v-align-bottom">
+                <span class="material-icons-outlined cursor-pointer text-danger"
+                    (click)="removefile(i)">
+                    Delete
+                </span>
+            </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+}

@@ -1,1 +1,140 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.min.css";
+
+@import 'bootstrap/dist/css/bootstrap.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-box {
+  background: white;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+/* .navbar-brand img {
+  width: 140px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-second-container {
+  display: flex;
+  align-items: center;
+  align-content: center;
+} */
+
+
+.input-group .form-control {
+  border-radius: 0 10px 10px 0 !important;
+}
+
+.search-dropdown .k-dropdown-wrap .k-input {
+  text-indent: 22px;
+}
+
+.k-combobox .k-dropdown-wrap .k-select {
+  border-left: 1px solid var(--border-mediumgray);
+  padding: 0 10px 0 10px;
+}
+
+
+.k-autocomplete.k-state-hover,
+.k-combobox>:hover,
+.k-combobox .k-state-hover,
+.k-datepicker .k-state-hover,
+.k-timepicker .k-state-hover,
+.k-datetimepicker .k-state-hover,
+.k-dateinput .k-state-hover,
+.k-multiselect-wrap:hover,
+.k-state-hover>.k-multiselect-wrap,
+.k-numerictextbox .k-state-hover {
+  background-color: var(--body-bg);
+  border-color: var(--border-lightgray);
+  color: var(--text-primary);
+}
+
+.k-autocomplete.k-state-focused,
+.k-combobox .k-state-focused,
+.k-combobox .k-state-active,
+.k-datepicker .k-state-focused,
+.k-timepicker .k-state-focused,
+.k-datetimepicker .k-state-focused,
+.k-datepicker .k-state-active,
+.k-timepicker .k-state-active,
+.k-datetimepicker .k-state-active,
+.k-dateinput .k-state-focused,
+.k-state-focused .k-multiselect-wrap,
+.k-numerictextbox .k-state-focused {
+  background-color: var(--body-bg);
+  border-color: var(--border-lightgray);
+  color: var(--text-primary);
+}
+
+.k-button:hover,
+.k-button.k-state-hover,
+.k-dropdown>:hover,
+.k-dropdown .k-state-hover,
+.k-spreadsheet-filter:hover,
+.k-action-buttons .k-button:hover,
+.k-pivot-toolbar .k-button:hover,
+.k-pivot-toolbar .k-button.k-state-hover,
+.k-fieldselector .k-list li.k-item:hover,
+.k-fieldselector .k-list li.k-item.k-state-hover,
+.k-colorpicker .k-tool-icon:hover,
+.k-colorpicker .k-select:hover,
+.k-colorpicker .k-tool-icon.k-state-hover,
+.k-colorpicker .k-select.k-state-hover,
+.k-colorpicker .k-state-hover,
+.k-combobox>:hover .k-select,
+.k-combobox .k-state-hover .k-select,
+.k-datepicker .k-state-hover .k-select,
+.k-timepicker .k-state-hover .k-select,
+.k-datetimepicker .k-state-hover .k-select,
+.k-dateinput .k-state-hover .k-select,
+.k-dropdowntree .k-dropdown-wrap:hover,
+.k-dropdowntree .k-dropdown-wrap.k-state-hover,
+.k-editor-toolbar a.k-tool:hover,
+.k-editor-toolbar a.k-tool.k-state-hover,
+.k-numerictextbox .k-state-hover .k-select,
+.k-handle:hover,
+.k-gantt-views li.k-state-hover,
+.k-scheduler-navigation .k-nav-today:hover,
+.k-scheduler-navigation .k-nav-prev:hover,
+.k-scheduler-navigation .k-nav-next:hover,
+.k-scheduler-views li:hover,
+.k-scheduler-footer li:hover,
+.k-ghost-splitbar {
+  background-color: var(--body-bg);
+  border-color: var(--border-lightgray);
+  color: var(--text-primary);
+}
+
+.combo-search {
+  position: absolute;
+  left: 25px;
+  top: 37px;
+
+  i {
+    transform: rotate(-85deg);
+    font-size: 19px;
+  }
+}

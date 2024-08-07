@@ -1,0 +1,105 @@
+<div class="main-container">
+  <div class="dashboard-container" [ngClass]="{'closed': isLeaveContainerClosed}">
+    <div class="container">
+      <h1>Welcome, {{ user }}</h1>
+      <!-- <h1>{{ user.password }}</h1> -->
+      <!-- <span class="span-icon" (click)="openProfile()">
+        <i class="fa fa-pencil"></i>
+      </span>
+      <div class="modal" [class.show]="isProfileModalOpen">
+        <div class="modal-content">
+          <span class="close" (click)="closeProfile()">
+            &#10006;
+          </span>
+          <app-profile-setting (profileUpdated)="onProfileUpdated($event)"></app-profile-setting>
+        </div>
+      </div> -->
+    </div>
+    <div class="leave-summary-list">
+      <div class="leave-summary">
+        <div class="leave-summary-item">
+          <p>Entitlement: {{ totalAssignedLeave }} day(s)</p>
+        </div>
+        <div class="leave-summary-item">
+          <p>Remaining: <span>{{ totalBalancedLeave }} day(s)</span></p>
+        </div>
+        <div class="leave-summary-item">
+          <p>Taken: <span>{{ totalApprovedLeave }} day(s)</span></p>
+        </div>
+        <div class="leave-summary-item">
+          <p>Rejected: {{ totalRejectedLeave }} day(s)</p>
+        </div>
+      </div>
+    </div>
+    <div class="apply-leave">
+      <a (click)="openModal()" class="open-modal-link">Apply Leave</a>
+      <div class="dot-view">
+        <div class="border-anim">
+            <span class="border-anim_line border-anim_line_left"></span>
+            <span class="border-anim_line border-anim_line_right"></span>
+            <span class="border-anim_line border-anim_line_top"></span>
+            <span class="border-anim_line border-anim_line_bottom"></span>
+        </div>
+        <span class="status-dot approved">Approved</span>
+        <span class="status-dot rejected">Rejected</span>
+        <span class="status-dot pending">Pending</span>
+    </div>
+    </div>
+    <div class="modal" [class.show]="isModalOpen">
+      <div class="modal-content">
+        <span class="close" (click)="closeModal()">
+          &#10006;
+        </span>
+        <app-apply-leave [selectedStartDate]="selectedStartDate" [selectedEndDate]="selectedEndDate"
+          (leaveApplied)="onLeaveApplied($event)">
+        </app-apply-leave>
+      </div>
+    </div>
+    <div class="calendar-container">
+      <app-calendar [leaveApplications]="filteredApplications" (dateSelected)="onDateSelected($event)">
+      </app-calendar>
+    </div>
+  </div>
+  <div class="leave-container" [ngClass]="{'closed': isLeaveContainerClosed}">
+    <div class="leave-status-container">
+      <i class="fa fa-arrow-circle-o-left icon" *ngIf="isLeaveContainerClosed" (click)="toggleLeaveContainer()"></i>
+      <i class="fa fa-arrow-circle-o-right icon" *ngIf="!isLeaveContainerClosed" (click)="toggleLeaveContainer()"></i>
+      <h2>Leave status</h2>
+      <div class="sorting-buttons">
+        <a *ngIf="sortField !== 'endDate'" class="sorting-date" (click)="sortDate('startDate')">Date
+          <i class="fa" [ngClass]="sortOrder === 'asc' ? 'fa-long-arrow-down' : 'fa-long-arrow-up'"></i>
+        </a>
+        <label class="sorting-radio">
+          <input type="radio" name="status" [(ngModel)]="selectedStatus" (change)="applyFiltersAndSorting()"
+            value="all"> All
+        </label>
+        <label class="sorting-radio">
+          <input type="radio" name="status" [(ngModel)]="selectedStatus" (change)="applyFiltersAndSorting()"
+            value="approved"> Approve
+        </label>
+        <label class="sorting-radio">
+          <input type="radio" name="status" [(ngModel)]="selectedStatus" (change)="applyFiltersAndSorting()"
+            value="rejected"> Reject
+        </label>
+        <label class="sorting-radio">
+          <input type="radio" name="status" [(ngModel)]="selectedStatus" (change)="applyFiltersAndSorting()"
+            value="pending"> Pending
+        </label>
+      </div>
+      <ul class="leave-applications">
+        <li *ngFor="let application of filteredApplications" [ngClass]="{
+          'approved': application.status === 'approved', 
+          'rejected': application.status === 'rejected', 
+          'pending' :application.status === 'pending'
+        }">
+          <div class="application-details">
+            <p>Start Date: <span>{{ FormatDate(application.startDate) }}</span></p>
+            <p>End Date: <span>{{ FormatDate(application.endDate) }}</span></p>
+            <p>Duration: <span>{{ getLeaveDays(application.startDate, application.endDate) }} Day(s)</span></p>
+            <p>Reason: <span>{{ application.reason }}</span></p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

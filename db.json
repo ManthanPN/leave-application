@@ -1,0 +1,446 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "manager",
+      "password": "123",
+      "role": "manager"
+    },
+    {
+      "id": "2",
+      "username": "demo",
+      "password": "123",
+      "email": "demo12@gmail.com",
+      "birthdate": "2024-06-06"
+    },
+    {
+      "id": "3",
+      "username": "manthan",
+      "password": "1234",
+      "email": "manthan@gmail.com",
+      "birthdate": "1998-02-12"
+    },
+    {
+      "id": "4",
+      "username": "supkul",
+      "password": "1234"
+    },
+    {
+      "id": "6",
+      "username": "manthanE",
+      "password": "1234",
+      "email": "manthan12@gmail.com"
+    },
+    {
+      "id": "7",
+      "username": "practice",
+      "password": "123",
+      "email": "pra12@gmail.com",
+      "birthdate": "2024-06-13"
+    },
+    {
+      "id": "7",
+      "username": "empl",
+      "password": "123",
+      "role": "employee",
+      "leaveDays": 26
+    },
+    {
+      "id": "8",
+      "username": "new",
+      "password": "123",
+      "role": "employee",
+      "leaveDays": 26
+    }
+  ],
+  "leaveApplications": [
+    {
+      "id": "6f35",
+      "username": "demo",
+      "startDate": "2024-06-13",
+      "endDate": "2024-06-14",
+      "reason": "feeling not well",
+      "status": "rejected"
+    },
+    {
+      "id": "8037",
+      "username": "manthan",
+      "startDate": "2024-06-06",
+      "endDate": "2024-06-10",
+      "reason": "sick leave",
+      "status": "rejected"
+    },
+    {
+      "id": "98fa",
+      "username": "demo1",
+      "startDate": "2024-06-07",
+      "endDate": "2024-06-14",
+      "reason": "leave for going out of town",
+      "status": "approved"
+    },
+    {
+      "id": "b605",
+      "username": "demo",
+      "startDate": "2024-06-06",
+      "endDate": "2024-06-16",
+      "reason": "leave for wedding",
+      "status": "approved"
+    },
+    {
+      "id": "9c3e",
+      "username": "agent",
+      "startDate": "2024-06-08",
+      "endDate": "2024-06-10",
+      "reason": "leave for holiday",
+      "status": "approved"
+    },
+    {
+      "id": "37fe",
+      "username": "manthan",
+      "startDate": "2024-06-13",
+      "endDate": "2024-06-18",
+      "reason": "going to goa for few day's with family",
+      "status": "approved"
+    },
+    {
+      "id": "6afa",
+      "username": "manthan",
+      "startDate": "2024-06-12",
+      "endDate": "2024-06-14",
+      "reason": "leave for the day",
+      "status": "rejected"
+    },
+    {
+      "id": "53b5",
+      "startDate": "2024-06-06",
+      "endDate": "2024-06-14",
+      "reason": "leave for week",
+      "username": "manthan",
+      "status": "rejected"
+    },
+    {
+      "id": "a9bd",
+      "startDate": "2024-06-13",
+      "endDate": "2024-06-13",
+      "reason": "headache",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "5954",
+      "startDate": "2024-06-01",
+      "endDate": "2024-06-02",
+      "reason": "Here first day leave ",
+      "username": "demo",
+      "status": "approved"
+    },
+    {
+      "id": "6e5c",
+      "startDate": "2024-06-01",
+      "endDate": "2024-06-01",
+      "reason": "loose motion",
+      "username": "manthan",
+      "status": "rejected"
+    },
+    {
+      "id": "11a8",
+      "startDate": "2024-08-01",
+      "endDate": "2024-08-03",
+      "reason": "leave aug",
+      "username": "demo",
+      "status": "rejected"
+    },
+    {
+      "id": "c164",
+      "startDate": "2024-06-03",
+      "endDate": "2024-06-05",
+      "reason": "here selected leave",
+      "username": "manthan",
+      "status": "rejected"
+    },
+    {
+      "id": "987a",
+      "startDate": "2024-05-29",
+      "endDate": "2024-05-31",
+      "reason": "asd",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "63d9",
+      "startDate": "2024-06-04",
+      "endDate": "2024-06-05",
+      "reason": "yesterday at night i had fever and today im not well so, not coming today ",
+      "username": "demo",
+      "status": "approved"
+    },
+    {
+      "id": "7b9b",
+      "startDate": "2024-06-02",
+      "endDate": "2024-06-03",
+      "reason": "today have fever so not well to office come",
+      "username": "demo",
+      "status": "rejected"
+    },
+    {
+      "id": "3fba",
+      "startDate": "2024-06-04",
+      "endDate": "2024-06-07",
+      "reason": "vacation",
+      "username": "supkul",
+      "status": "approved"
+    },
+    {
+      "id": "fe03",
+      "startDate": "2024-06-21",
+      "endDate": "2024-06-21",
+      "reason": "leave for going dubai",
+      "username": "supkul",
+      "status": "rejected"
+    },
+    {
+      "id": "3356",
+      "startDate": "2024-06-12",
+      "endDate": "2024-06-14",
+      "reason": "leave",
+      "username": "supkul",
+      "status": "approved"
+    },
+    {
+      "id": "b3d8",
+      "startDate": "2024-06-18",
+      "endDate": "2024-06-20",
+      "reason": "asdasd",
+      "username": "supkul",
+      "status": "rejected"
+    },
+    {
+      "id": "e68c",
+      "startDate": "2024-06-23",
+      "endDate": "2024-06-25",
+      "reason": "leave for sick",
+      "username": "supkul",
+      "status": "approved"
+    },
+    {
+      "id": "a234",
+      "startDate": "2024-06-29",
+      "endDate": "2024-06-30",
+      "reason": "leave it new",
+      "username": "supkul",
+      "status": "rejected"
+    },
+    {
+      "id": "a484",
+      "startDate": "2024-06-07",
+      "endDate": "2024-06-09",
+      "reason": "annual leave",
+      "username": "manthanE",
+      "status": "approved"
+    },
+    {
+      "id": "29bb",
+      "startDate": "2024-06-19",
+      "endDate": "2024-06-21",
+      "reason": "leave taken",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "d917",
+      "startDate": "2024-06-26",
+      "endDate": "2024-06-27",
+      "reason": "leave for two days",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "b73b",
+      "startDate": "2024-06-23",
+      "endDate": "2024-06-25",
+      "reason": "leave it three days",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "f4df",
+      "startDate": "2024-05-26",
+      "endDate": "2024-05-29",
+      "reason": "leave for three",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "5c1b",
+      "startDate": "2024-05-14",
+      "endDate": "2024-05-16",
+      "reason": "May in leave for three ",
+      "username": "manthan",
+      "status": "rejected"
+    },
+    {
+      "id": "0afd",
+      "startDate": "2024-06-19",
+      "endDate": "2024-06-21",
+      "reason": "leave for weakness",
+      "username": "demo",
+      "status": "rejected"
+    },
+    {
+      "id": "e3af",
+      "startDate": "2024-05-09",
+      "endDate": "2024-05-10",
+      "reason": "leave in may",
+      "username": "demo",
+      "status": "rejected"
+    },
+    {
+      "id": "9bbf",
+      "startDate": "2024-05-15",
+      "endDate": "2024-05-17",
+      "reason": "leave for three days",
+      "username": "demo",
+      "status": "rejected"
+    },
+    {
+      "id": "1485",
+      "startDate": "2024-05-22",
+      "endDate": "2024-05-22",
+      "reason": "one day leave",
+      "username": "demo",
+      "status": "approved"
+    },
+    {
+      "id": "7e90",
+      "startDate": "2024-04-20",
+      "endDate": "2024-04-20",
+      "reason": "leave in April in one day",
+      "username": "demo",
+      "status": "approved"
+    },
+    {
+      "id": "3f21",
+      "startDate": "2024-07-20",
+      "endDate": "2024-07-21",
+      "reason": "leave in july",
+      "username": "demo",
+      "status": "rejected"
+    },
+    {
+      "id": "746a",
+      "startDate": "2024-08-20",
+      "endDate": "2024-08-20",
+      "reason": "leave in august",
+      "username": "demo",
+      "status": "approved"
+    },
+    {
+      "id": "9b77",
+      "startDate": "2024-06-04",
+      "endDate": "2024-06-06",
+      "reason": "here leave for new user",
+      "username": "empl",
+      "status": "rejected"
+    },
+    {
+      "id": "6e9e",
+      "startDate": "2024-06-27",
+      "endDate": "2024-06-28",
+      "reason": "asdfasfdsa",
+      "username": "demo",
+      "status": "rejected"
+    },
+    {
+      "id": "5733",
+      "startDate": "2024-06-09",
+      "endDate": "2024-06-10",
+      "reason": "dsasdfsa",
+      "username": "supkul",
+      "status": "approved"
+    },
+    {
+      "id": "6f91",
+      "startDate": "2024-06-27",
+      "endDate": "2024-06-28",
+      "reason": "fdsagadfsg",
+      "username": "supkul",
+      "status": "rejected"
+    },
+    {
+      "id": "7cdb",
+      "startDate": "2024-06-05",
+      "endDate": "2024-06-08",
+      "reason": "sadfsadf",
+      "username": "supkul",
+      "status": "rejected"
+    },
+    {
+      "id": "2a18",
+      "startDate": "2024-06-17",
+      "endDate": "2024-06-20",
+      "reason": "sadfsadfsadf",
+      "username": "demo",
+      "status": "approved"
+    },
+    {
+      "id": "f09d",
+      "startDate": "2024-06-02",
+      "endDate": "2024-06-04",
+      "reason": "aewsfasdf",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "abf5",
+      "startDate": "2024-06-14",
+      "endDate": "2024-06-15",
+      "reason": "here to login page\n",
+      "username": "empl",
+      "status": "pending"
+    },
+    {
+      "id": "a7a0",
+      "startDate": "2024-06-17",
+      "endDate": "2024-06-19",
+      "reason": "aaaaaaaaaa",
+      "username": "empl",
+      "status": "pending"
+    },
+    {
+      "id": "7dba",
+      "startDate": "2024-05-28",
+      "endDate": "2024-05-30",
+      "reason": "here pending leave\n",
+      "username": "demo",
+      "status": "pending"
+    },
+    {
+      "id": "3dbc",
+      "startDate": "2024-06-28",
+      "endDate": "2024-06-29",
+      "reason": "leave 1",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "bb1e",
+      "startDate": "2024-07-01",
+      "endDate": "2024-07-02",
+      "typeLeave": "Sick Leave",
+      "leaveDuration": "Full Day",
+      "reason": "leave 2\n",
+      "username": "manthan",
+      "status": "approved"
+    },
+    {
+      "id": "cf94",
+      "startDate": "2024-06-13",
+      "endDate": "2024-06-14",
+      "typeLeave": "Sick Leave",
+      "leaveDuration": "Full Day",
+      "reason": "have a Fever",
+      "username": "manthan",
+      "status": "pending"
+    }
+  ]
+}

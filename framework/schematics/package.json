@@ -1,0 +1,17 @@
+{
+  "name": "@ngx-formly/schematics",
+  "version": "0.0.0-FORMLY-VERSION",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json"
+  },
+  "schematics": "./src/collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "dependencies": {
+    "@angular-devkit/core": "^13.0.3",
+    "@angular-devkit/schematics": "^13.0.3",
+    "@schematics/angular": "^13.0.3"
+  }
+}

@@ -1,0 +1,53 @@
+.fullcontainer {
+    max-width: 1000px;
+    height: 40%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow:  0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: default;
+
+  }
+  
+  fc-event {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  fc-header-toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  fc-event-title-container {
+    padding: 4px;
+  }
+  
+  fc-event-daygrid-event {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 5px;
+  }
+  
+  .fc-event-daygrid-event:hover {
+    background-color: #0056b3;
+  }
+  
+  .fc-event-col-header-cell-cushion {
+    padding: 5px;
+  }
+  
+  .fc-daygrid-day-number {
+    font-size: 0.9em;
+    padding: 5px;
+  }
+
+  .fc-h-event .fc-event-title-container {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0px;
+}

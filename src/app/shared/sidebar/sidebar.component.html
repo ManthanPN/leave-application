@@ -1,0 +1,16 @@
+<div class="side-nav" [class.open]="isOpen">
+  <div class="leave-summary">
+    <div class="leave-summary-item">
+      <p>Entitlement: {{ totalAssignedLeave }} day(s)</p>
+    </div>
+    <div class="leave-summary-item">
+      <p>Remaining: <span>{{ totalBalancedLeave }} day(s)</span></p>
+    </div>
+    <div class="leave-summary-item">
+      <p>Taken: <span>{{ totalApprovedLeave }} day(s)</span></p>
+    </div>
+    <div class="leave-summary-item">
+      <p>Rejected: {{ totalRejectedLeave }} day(s)</p>
+    </div>
+  </div>
+</div>
