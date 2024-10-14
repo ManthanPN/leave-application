@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class LeaveApplicationServiceService {
   private apiUrl = 'https://localhost:44370/api/Users'
   private apiLeaveUrl = 'https://localhost:44370/api/Leave'
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   Register(user: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/Register`, user);
@@ -20,18 +20,6 @@ export class LeaveApplicationServiceService {
   Login(objSave: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/Login`, objSave);
   }
-
-  // setSessionStorage(username: string): void {
-  //   sessionStorage.setItem('username', username);
-  // }
-
-  // getSessionStorage(): string | null {
-  //   return sessionStorage.getItem('username');
-  // }
-
-  // clearSessionStorage(): void {
-  //   sessionStorage.removeItem('username');
-  // }
 
   getEmployees(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/GetEmployees`);
@@ -69,27 +57,10 @@ export class LeaveApplicationServiceService {
     return this.http.get<any>(`${this.apiLeaveUrl}/GetLeaveDurations`);
   }
 
-  // applyLeave(leave: any): Observable<any> {
-  //   return this.http.post<any>(`${this.apiLeaveUrl}/LeaveManage`, leave);
-  // }
-
-  // getLeaveApplications(): Observable<any[]> {
-  //   return this.http.get<any[]>(`${this.apiLeaveUrl}/GetLeaveApplications`);
-  // }
-
-  // approveLeave(applicationId: number): Observable<any> {
-  //   return this.http.patch<any>(`${this.apiLeaveUrl}/ApproveLeave/${applicationId}`, {});
-  // }
-
-  // rejectLeave(applicationId: number): Observable<any> {
-  //   return this.http.patch<any>(`${this.apiLeaveUrl}/RejectLeave/${applicationId}`, {});
-  // }
-
-  // deleteLeave(applicationId: number): Observable<void> {
-  //   return this.http.delete<void>(`${this.apiLeaveUrl}/DeleteLeave/${applicationId}`);
-  // }
-
-  updateUser(user: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/UpdateUser/${user.id}`, user);
+  updateUser(updatedProfile: any): Observable<any> {
+    return this.http.put(
+    `${this.apiUrl}/UpdateUser`, 
+    updatedProfile
+    );
   }
 }

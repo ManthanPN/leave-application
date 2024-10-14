@@ -24,6 +24,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     selectable: true,
     // themeSystem: 'bootstrap5',
     select: this.handleDateSelect.bind(this),
+    eventClassNames: [ 'approve', 'otherclassname' ],
     events: []
   };
 

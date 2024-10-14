@@ -13,12 +13,11 @@ import { FormlyFieldConfig, FormlyFormOptions } from '../../../../../framework/c
 })
 export class ProfileSettingComponent implements OnInit {
   @Output() profileUpdated = new EventEmitter<any>();
-  options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[];
-  model: any = {};
-  // myForm = new FormGroup({});
-  user: any;
   userForm: FormGroup;
+  user: any = {};
+  model: any = {};
+  emp : any;
+  username: any;
   confirmPassword: any;
   // isLoading = false;
 
@@ -31,153 +30,65 @@ export class ProfileSettingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.user = {
-    //   id: this.authService.getUserId(),
-    //   username: this.authService.getUsername(),
-    //   password: this.authService.getPassword(),
-    //   email: this.authService.getEmail(),
-    //   birthdate: this.authService.getBirthdate()
-    // };
-    // this.setForm();
-  }
-
-  onSubmit() { }
-
-  updateProfile(profileForm: NgForm): void {
-    if (profileForm.valid) {
-      if (this.user.password !== this.confirmPassword) {
-        this.toastr.error('Password and confirm password do not match');
-        return;
+    this.leaveService.getEmployees().subscribe((employees: any[]) => {
+      this.emp = employees;
+      this.username = this.authService.getSessionStorage();
+      const loggedInUser = this.emp.find((emp:any) => emp.username === this.username);
+      if (loggedInUser) {
+        this.user = loggedInUser;
+        this.setForm();
+      } else {
+        this.toastr.error('User not found');
       }
-      this.loadingService.showLoading();
-      const updatedProfile = {
-        id: this.user.id,
-        username: this.user.username,
-        password: this.user.password,
-        email: this.user.email,
-        birthdate: this.user.birthdate
-      };
-      // this.leaveService.updateUser(updatedProfile).subscribe(
-      //   (response: any) => {
-      //     sessionStorage.setItem('user', JSON.stringify(updatedProfile));
-      //     this.authService.updateUserInfo(updatedProfile.username, updatedProfile.password, updatedProfile.email, updatedProfile.birthdate);
-      //     this.profileUpdated.emit(updatedProfile);
-      //     setTimeout(() => {
-      //       this.loadingService.hideLoading();
-      //       this.toastr.success('Profile updated successfully');
-      //     }, Math.random() * 1000 + 1000);
-      //   },
-      //   (error: any) => {
-      //     this.toastr.error('Error updating profile');
-      //     this.loadingService.hideLoading();
-      //   }
-      // );
-    }
+    });
+    this.setForm();
   }
 
   setForm() {
-    // this.userForm = this.fb.group({
-    //   username: [{ value: this.user.username, disabled: true }, Validators.required],
-    //   birthdate: [this.user.birthdate, Validators.required],
-    //   password: [this.user.password, Validators.required],
-    //   confirmPassword: ['', Validators.required],
-    //   email: [this.user.email, [Validators.required, Validators.email]]
-    // });
-    this.fields = [
-      
-      {
-        fieldGroupClassName: 'row my-2',
-        fieldGroup: [
-          {
-            className: 'col-sm-6',
-            type: 'input',
-            key: 'username',
-            props: {
-              label: 'Username',
-            },
-          },
-          {
-            className: 'col-sm-6',
-            key: 'birthdate',
-            type: 'date',
-            props: {
-              label: 'Birthdate',
-              primitive: true,
-              required: true,
-              format: 'dd/MM/yyyy',
-            },
-          },
-        ],
-      },
-      {
-        fieldGroupClassName: 'row my-2',
-        fieldGroup: [
-          {
-            className: 'col-sm-6',
-            type: 'input',
-            key: 'password',
-            props: {
-              label: 'Password',
-            },
-          },
-          {
-            className: 'col-sm-6',
-            type: 'input',
-            key: 'confirmPassword',
-            props: {
-              label: 'Confirm Password',
-            },
-          },
-        ],
-      },
-      {
-        fieldGroupClassName: 'row my-2',
-        fieldGroup: [
-          {
-            className: 'col-sm-12',
-            type: 'email',
-            key: 'email',
-            props: {
-              label: 'Email',
-            },
-          },
-        ],
-      },
-    ];
+    this.userForm = this.fb.group({
+      username: [this.user.username, Validators.required],
+      birthdate: [this.user.birthdate, Validators.required],
+      password: [this.user.password, Validators.required],
+      confirmPassword: ['', Validators.required],
+      email: [this.user.email, [Validators.required, Validators.email]]
+    });
   }
-  // onSubmit() {
-  //   if (this.userForm.valid) {
-  //     const formValues = this.userForm.getRawValue();
-  //     if (formValues.password !== this.userForm.value.confirmPassword) {
-  //       this.toastr.error('Password and confirm password do not match');
-  //       return;
-  //     }
 
-  //     this.loadingService.showLoading();
-  //     const updatedProfile = {
-  //       id: this.user.id,
-  //       username: formValues.username,
-  //       password: formValues.password,
-  //       email: formValues.email,
-  //       birthdate: formValues.birthdate
-  //     };
+  onSubmit() {
+    if (this.userForm.valid) {
+      this.loadingService.showLoading();
 
-  //     this.leaveService.updateUser(updatedProfile).subscribe(
-  //       (response: any) => {
-  //         sessionStorage.setItem('user', JSON.stringify(updatedProfile));
-  //         this.authService.updateUserInfo(updatedProfile.username, updatedProfile.password, updatedProfile.email, updatedProfile.birthdate);
-  //         this.profileUpdated.emit(updatedProfile);
-  //         setTimeout(() => {
-  //           this.loadingService.hideLoading();
-  //           this.toastr.success('Profile updated successfully');
-  //         }, Math.random() * 1000 + 1000);
-  //       },
-  //       (error: any) => {
-  //         this.toastr.error('Error updating profile');
-  //         this.loadingService.hideLoading();
-  //       }
-  //     );
-  //   }
-  // }
-  
+      if (this.userForm.value.password !== this.userForm.value.confirmPassword) {
+        this.toastr.error('Passwords do not match');
+        return;
+      }
+
+      const updatedProfile = {
+        id: this.user.id,
+        username: this.user.username,
+        password: this.userForm.value.password,
+        email: this.userForm.value.email,
+        birthdate: this.userForm.value.birthdate
+      };
+
+      this.leaveService.updateUser(updatedProfile).subscribe(
+      (data: any) => {
+        sessionStorage.setItem('user', JSON.stringify(updatedProfile));
+        this.authService.updateUserInfo(updatedProfile.username, updatedProfile.password, updatedProfile.email, updatedProfile.birthdate);
+        this.profileUpdated.emit(updatedProfile);
+        setTimeout(() => {
+          this.loadingService.hideLoading();
+          this.toastr.success('Profile updated successfully');
+        }, Math.random() * 1000 + 1000);
+      },
+        (error: any) => {
+          this.toastr.error('Error updating profile');
+          this.loadingService.hideLoading();  
+        }
+      );
+    }
+  }
 }
+
+
+

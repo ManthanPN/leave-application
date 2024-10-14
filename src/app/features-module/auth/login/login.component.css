@@ -1,47 +1,96 @@
 .form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 2em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .form-container h1 {
-    text-align: center;
-    margin-bottom: 1em;
-    cursor: none;
-  }
-  
-  .form-group {
-    margin-bottom: 1em;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5em;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  .btn {
-    display: block;
-    width: 100%;
-    padding: 0.7em;
-    border: none;
-    border-radius: 3px;
-    background-color: #007BFF;
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 4rem;
+  padding: 2em;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(1.3px);
+  -webkit-backdrop-filter: blur(1.3px);
+  border: 1px solid rgba(194, 208, 192, 0.2);
+  background: rgba(194, 208, 192, 0.37);
+}
+
+.label{
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-link {
+  color: #1d122e;
+  margin-left: 0.2rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.regsiter-text {
+  color: #1c1922;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration:dotted;
+  color: #581bba;
+}
+
+.form-container h1 {
+  text-align: center;
+  margin-bottom: 1em;
+  cursor: none;
+}
+
+input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Semi-transparent border */
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.301); /* Transparent background */
+  color: #2e273a; /* Text color matching the register link */
+  backdrop-filter: blur(2px); /* Slight blur to match transparency */
+  -webkit-backdrop-filter: blur(2px);
+  transition: background 0.3s ease, border 0.3s ease;
+}
+
+ input:focus {
+  outline: none; /* Remove default outline */
+  background: rgba(255, 255, 255, 0.3); /* Slightly more opaque on focus */
+  border: 1px solid rgba(255, 255, 255, 0.6); /* Brighter border on focus */
+}
+
+input::placeholder {
+  color: rgba(46, 39, 58, 0.7); /* Semi-transparent placeholder color */
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 0.7em;
+  border: none;
+  border-radius: 24px;
+  background-color: #18222c;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}

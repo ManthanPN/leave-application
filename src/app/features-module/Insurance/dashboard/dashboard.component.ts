@@ -39,13 +39,9 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadUserData();
-    this.loadLeaveApplications();
-  }
-
-  loadUserData() {
     this.user = this.authService.getSessionStorage();
-    console.log('session user',this.user);
+    this.loadLeaveApplications();
+    this.updateLeaveBalance();
   }
 
   loadLeaveApplications() {
@@ -59,8 +55,9 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleDropdown() { this.isDropdownOpen = !this.isDropdownOpen; }
-  // openProfile() { this.isProfileModalOpen = true; }
-  // closeProfile() { this.isProfileModalOpen = false; }
+  
+  openProfile() { this.isProfileModalOpen = true; }
+  closeProfile() { this.isProfileModalOpen = false; }
 
   openModal() { this.isModalOpen = true; }
   closeModal() {
@@ -96,7 +93,7 @@ export class DashboardComponent implements OnInit {
     if (this.selectedStatus === 'all') {
       this.filteredApplications = [...this.leaveApplications];
     } else {
-      this.filteredApplications = this.leaveApplications.filter(application => application.status === this.selectedStatus);
+      this.filteredApplications = this.leaveApplications.filter(application => application.status === this.selectedStatus);    
     }
   }
 
@@ -126,6 +123,11 @@ export class DashboardComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
+  updateLeaveBalance() {
+    const savedBalance = parseFloat(localStorage.getItem('leaveBalance') || this.totalAssignedLeave.toString());
+    this.totalBalancedLeave = savedBalance;
+  }
+
   getLeaveDays(startDate: string, endDate: string): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -137,25 +139,22 @@ export class DashboardComponent implements OnInit {
     let rejectedLeaves = 0;
 
     for (const application of this.leaveApplications) {
-      const startDate = new Date(application.startDate);
-      const endDate = new Date(application.endDate);
-      const leaveDays = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24) + 1;
       if (application.status === 'approved') {
-        approvedLeaves += leaveDays;
+        approvedLeaves += this.getLeaveDays(application.startDate, application.endDate);
       } else if (application.status === 'rejected') {
-        rejectedLeaves += leaveDays;
-      }
+        rejectedLeaves += this.getLeaveDays(application.startDate, application.endDate);
+      } 
     }
     this.totalApprovedLeave = approvedLeaves;
     this.totalRejectedLeave = rejectedLeaves;
     this.totalBalancedLeave = this.totalAssignedLeave - approvedLeaves;
   }
 
-  // onProfileUpdated(updatedProfile: any) {
-  //   this.user = updatedProfile;
-  //   sessionStorage.setItem('user', JSON.stringify(updatedProfile));
-  //   this.loadLeaveApplications();
-  //   this.closeProfile();
-  // }
+  onProfileUpdated(updatedProfile: any) {
+    this.user = updatedProfile.username;
+    sessionStorage.setItem('user', JSON.stringify(updatedProfile));
+    this.loadLeaveApplications();
+    this.closeProfile();
+  }
 
 }
