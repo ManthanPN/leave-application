@@ -1,5 +1,5 @@
-<div class="background">
-  <!-- <div data-v-053f5fce="" data-v-86491ac8="" class="scattered-previews">
+<div class="background-non">
+  <div data-v-053f5fce="" class="background" *ngIf="!isLoggedIn" data-v-86491ac8="" class="scattered-previews">
     <div data-v-053f5fce="" class="glass"
       style="width: 325px; height: 171px; top: 396px; left: 495px; transform: rotate(0.561125turn); opacity: 0.110937;">
     </div>
@@ -57,15 +57,15 @@
     <div data-v-053f5fce="" class="glass"
       style="width: 179px; height: 110px; top: 36px; left: 650px; transform: rotate(0.0954184turn); opacity: 0.246125;">
     </div>
-  </div> -->
-  <header class="header" *ngIf="isLoggedIn">
+  </div>
+  <header class="header"  *ngIf="isLoggedIn">
     <nav class="navbar navbar-expand p-3">
       <button class="toggle-button" (click)="toggleSideNav()">&#9776;</button>
       <li><a href="#" class="m-5" (click)="logout()">Logout</a></li>
     </nav>
   </header>
-  <app-sidebar [isOpen]="isSideNavOpen"></app-sidebar>
-  <div class="main-content">
+  <app-sidebar  [isOpen]="isSideNavOpen"></app-sidebar>
+  <div class="main-content"  class="background" >
     <router-outlet></router-outlet>
     <div *ngIf="isLoading" class="loading-overlay">
       <div class="loading-box">

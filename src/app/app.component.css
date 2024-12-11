@@ -9,11 +9,16 @@ body {
 }
 
 .background {
+    background-color: #f1f1f1;
+    /* background: linear-gradient(300deg, #b18319, #13808e, #2a2a6a); */
+}
+.background-non {
     width: 100%;
     height: 100vh;
     overflow-y: auto;
     scrollbar-width: thin;
     background-color: #63777f;
+    
     /* background: linear-gradient(300deg, #b18319, #13808e, #2a2a6a); */
 }
 
