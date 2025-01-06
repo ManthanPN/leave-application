@@ -24,7 +24,7 @@
           <div class="leave-info">
             <p><strong>Name: </strong> {{ leave.username }}</p>
             <p><strong>Reason: </strong> {{ leave.reason }}</p>
-            <p><strong>Leave Days: </strong><span>{{ getLeaveDays(leave.startDate, leave.endDate) }}</span></p>
+            <p><strong>Leave Days: </strong><span>{{ getLeaveDays(leave.startDate, leave.endDate, leave.leaveDuration) }}</span></p>
             <p><strong>Status: </strong> <span class="status {{ leave.status }}">{{ leave.status }}</span></p>
           </div>
           <div class="leave-actions">

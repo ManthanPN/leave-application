@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
 import { AuthService } from '../../../auth.service';
 import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   totalRejectedLeave: number = 0;
   totalBalancedLeave: number = 26;
 
+  
   isModalOpen = false;
   isLeaveContainerClosed: boolean = false;
   isDropdownOpen = false;
@@ -128,10 +129,19 @@ export class DashboardComponent implements OnInit {
     this.totalBalancedLeave = savedBalance;
   }
 
-  getLeaveDays(startDate: string, endDate: string): number {
+  //Leave Status 
+  getLeaveDays(startDate: string, endDate: string, leaveDuration:string ): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    return Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+    let calLeaves =  Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+    if (leaveDuration == 'AM' || leaveDuration == 'PM') {
+      return 0.5;
+    }
+    else if (leaveDuration === 'Full Day') {
+      return calLeaves;
+    } else {
+      return calLeaves;
+    }
   }
 
   calculateLeaveStats() {
@@ -140,9 +150,14 @@ export class DashboardComponent implements OnInit {
 
     for (const application of this.leaveApplications) {
       if (application.status === 'approved') {
-        approvedLeaves += this.getLeaveDays(application.startDate, application.endDate);
+        if (application.leaveDuration === 'AM' || application.leaveDuration === 'PM') {
+          approvedLeaves += 0.5; // Add 0.5 for half-day leaves
+        } else {
+          approvedLeaves += this.getLeaveDays(application.startDate, application.endDate, application.leaveDuration);
+        }
+        // approvedLeaves += this.getLeaveDays(application.startDate, application.endDate);
       } else if (application.status === 'rejected') {
-        rejectedLeaves += this.getLeaveDays(application.startDate, application.endDate);
+        rejectedLeaves += this.getLeaveDays(application.startDate, application.endDate, application.leaveDuration);
       } 
     }
     this.totalApprovedLeave = approvedLeaves;

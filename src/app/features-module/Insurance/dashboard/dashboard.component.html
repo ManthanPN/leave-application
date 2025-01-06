@@ -18,16 +18,16 @@
     <div class="leave-summary-list">
       <div class="leave-summary">
         <div class="leave-summary-item">
-          <p>Entitlement: {{ totalAssignedLeave }} day(s)</p>
+          <p>Entitlement: {{ totalAssignedLeave }} day's</p>
         </div>
         <div class="leave-summary-item">
-          <p>Remaining: <span>{{ totalBalancedLeave }} day(s)</span></p>
+          <p>Remaining: <span>{{ totalBalancedLeave }} day's</span></p>
         </div>
         <div class="leave-summary-item">
-          <p>Taken: <span>{{ totalApprovedLeave }} day(s)</span></p>
+          <p>Taken: <span>{{ totalApprovedLeave }} day's</span></p>
         </div>
         <div class="leave-summary-item">
-          <p>Rejected: {{ totalRejectedLeave }} day(s)</p>
+          <p>Rejected: {{ totalRejectedLeave }} day's</p>
         </div>
       </div>
     </div>
@@ -95,7 +95,7 @@
           <div class="application-details">
             <p>Start Date: <span>{{ FormatDate(application.startDate) }}</span></p>
             <p>End Date: <span>{{ FormatDate(application.endDate) }}</span></p>
-            <p>Duration: <span>{{ getLeaveDays(application.startDate, application.endDate) }} Day(s)</span></p>
+            <p>Duration: <span>{{ getLeaveDays(application.startDate, application.endDate , application.leaveDuration) }} Day(s)</span></p>
             <p>Reason: <span>{{ application.reason }}</span></p>
           </div>
         </li>

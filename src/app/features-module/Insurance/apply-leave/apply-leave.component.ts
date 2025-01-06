@@ -72,12 +72,12 @@ export class ApplyLeaveComponent implements OnInit {
   applyLeave() {
     if (this.leaveForm.valid) {
       this.loadingService.showLoading();
-
+      
       let leaveDeduction = 0;
       if (this.leaveDuration === 'AM' || this.leaveDuration === 'PM') {
-        leaveDeduction = 0.5; // Half day deduction
+        leaveDeduction = 0.5;
       } else if (this.leaveDuration === 'Full Day') {
-        leaveDeduction = 1; // Full day deduction
+        leaveDeduction = 1;
       }
 
       const newLeave = {
