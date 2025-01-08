@@ -17,14 +17,17 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5'
 export class CalendarComponent implements OnInit, OnChanges {
   @Input() leaveApplications: any[] = [];
   @Output() dateSelected = new EventEmitter<{ start: string, end: string }>();
+
   user: string | null = '';
+  selectedDates: Set<string> = new Set();
+
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin, bootstrap5Plugin],
     initialView: 'dayGridMonth',
     selectable: true,
     // themeSystem: 'bootstrap5',
     select: this.handleDateSelect.bind(this),
-    eventClassNames: [ 'approve', 'otherclassname' ],
+    eventClassNames: ['approve', 'otherclassname'],
     events: []
   };
 
@@ -43,6 +46,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     setTimeout(() => {
       if (changes['leaveApplications'] && !changes['leaveApplications'].firstChange) {
         this.populateCalendarEvents();
+        this.updateSelectedDates();
         this.loadingService.hideLoading();
       }
     }, Math.random() * 800 + 1000);
@@ -52,8 +56,22 @@ export class CalendarComponent implements OnInit, OnChanges {
     this.loadingService.showLoading();
     this.leaveService.getLeaveApplications().subscribe(applications => {
       this.leaveApplications = applications;
-      this.populateCalendarEvents();
     });
+  }
+
+  updateSelectedDates() {
+    this.selectedDates.clear();
+      this.leaveApplications.forEach((app) => {
+        let currentDate = new Date(app.startDate);
+        const endDate = new Date(app.endDate);
+        while (currentDate <= endDate) {
+          const dateString = currentDate.toISOString().split('T')[0];
+          if (app.status === 'approved') {
+            this.selectedDates.add(dateString);
+          }
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      });
   }
 
   populateCalendarEvents() {
@@ -75,6 +93,18 @@ export class CalendarComponent implements OnInit, OnChanges {
     const selectedEndDate = new Date(selectInfo.endStr);
     selectedEndDate.setDate(selectedEndDate.getDate() - 1);
     const end = selectedEndDate.toISOString().split('T')[0];
+
+    let currentDate = new Date(start);
+    while (currentDate <= new Date(end)) {
+      const currentDateString = currentDate.toISOString().split('T')[0];
+      if (this.selectedDates.has(currentDateString)) {
+        this.toastr.warning('Date is already approved.');
+        return;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
     this.dateSelected.emit({ start, end });
   }
+
 }
+

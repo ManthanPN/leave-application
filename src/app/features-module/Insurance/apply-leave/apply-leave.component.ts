@@ -30,6 +30,7 @@ export class ApplyLeaveComponent implements OnInit {
   reason: string = '';
   status: string = 'pending';
   user: string | null = '';
+  
   constructor(
     private leaveService: LeaveApplicationServiceService,
     private router: Router,
@@ -53,7 +54,6 @@ export class ApplyLeaveComponent implements OnInit {
 
   getLeaveApplications(): void {
     this.leaveService.getLeaveApplications().subscribe(data => {
-      // console.log(data);
     });
   }
 
@@ -90,11 +90,10 @@ export class ApplyLeaveComponent implements OnInit {
         status: this.status
       };
 
-      this.leaveService.addLeave(newLeave).subscribe(response => {
+      this.leaveService.addLeave(newLeave).subscribe(res => {
         this.leaveApplied.emit(newLeave);
         this.getLeaveApplications();
         this.leaveForm.resetForm();
-        // Reduce the total leave balance based on the leave duration
         this.updateLeaveBalance(leaveDeduction);
 
         setTimeout(() => {
@@ -123,4 +122,5 @@ export class ApplyLeaveComponent implements OnInit {
       this.leaveForm.resetForm();
     }
   }
+
 }

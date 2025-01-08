@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   totalRejectedLeave: number = 0;
   totalBalancedLeave: number = 26;
 
-  
+  pendingLeaveDetails: any = null;
   isModalOpen = false;
   isLeaveContainerClosed: boolean = false;
   isDropdownOpen = false;
@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
   onLeaveApplied(newLeave: any) {
     this.leaveApplications.push(newLeave);
     this.loadLeaveApplications();
-    this.calculateLeaveStats();
+    this.calculateLeaveStats(); 
     this.closeModal()
   }
 
@@ -151,11 +151,10 @@ export class DashboardComponent implements OnInit {
     for (const application of this.leaveApplications) {
       if (application.status === 'approved') {
         if (application.leaveDuration === 'AM' || application.leaveDuration === 'PM') {
-          approvedLeaves += 0.5; // Add 0.5 for half-day leaves
+          approvedLeaves += 0.5;
         } else {
           approvedLeaves += this.getLeaveDays(application.startDate, application.endDate, application.leaveDuration);
         }
-        // approvedLeaves += this.getLeaveDays(application.startDate, application.endDate);
       } else if (application.status === 'rejected') {
         rejectedLeaves += this.getLeaveDays(application.startDate, application.endDate, application.leaveDuration);
       } 
