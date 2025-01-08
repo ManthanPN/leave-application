@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
 import { AuthService } from '../../../auth.service';
 import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   totalRejectedLeave: number = 0;
   totalBalancedLeave: number = 26;
 
+  pendingLeaveDetails: any = null;
   isModalOpen = false;
   isLeaveContainerClosed: boolean = false;
   isDropdownOpen = false;
@@ -39,13 +40,9 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadUserData();
-    this.loadLeaveApplications();
-  }
-
-  loadUserData() {
     this.user = this.authService.getSessionStorage();
-    console.log('session user',this.user);
+    this.loadLeaveApplications();
+    this.updateLeaveBalance();
   }
 
   loadLeaveApplications() {
@@ -59,8 +56,9 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleDropdown() { this.isDropdownOpen = !this.isDropdownOpen; }
-  // openProfile() { this.isProfileModalOpen = true; }
-  // closeProfile() { this.isProfileModalOpen = false; }
+  
+  openProfile() { this.isProfileModalOpen = true; }
+  closeProfile() { this.isProfileModalOpen = false; }
 
   openModal() { this.isModalOpen = true; }
   closeModal() {
@@ -73,7 +71,7 @@ export class DashboardComponent implements OnInit {
   onLeaveApplied(newLeave: any) {
     this.leaveApplications.push(newLeave);
     this.loadLeaveApplications();
-    this.calculateLeaveStats();
+    this.calculateLeaveStats(); 
     this.closeModal()
   }
 
@@ -96,7 +94,7 @@ export class DashboardComponent implements OnInit {
     if (this.selectedStatus === 'all') {
       this.filteredApplications = [...this.leaveApplications];
     } else {
-      this.filteredApplications = this.leaveApplications.filter(application => application.status === this.selectedStatus);
+      this.filteredApplications = this.leaveApplications.filter(application => application.status === this.selectedStatus);    
     }
   }
 
@@ -126,10 +124,24 @@ export class DashboardComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
-  getLeaveDays(startDate: string, endDate: string): number {
+  updateLeaveBalance() {
+    const savedBalance = parseFloat(localStorage.getItem('leaveBalance') || this.totalAssignedLeave.toString());
+    this.totalBalancedLeave = savedBalance;
+  }
+
+  //Leave Status 
+  getLeaveDays(startDate: string, endDate: string, leaveDuration:string ): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    return Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+    let calLeaves =  Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+    if (leaveDuration == 'AM' || leaveDuration == 'PM') {
+      return 0.5;
+    }
+    else if (leaveDuration === 'Full Day') {
+      return calLeaves;
+    } else {
+      return calLeaves;
+    }
   }
 
   calculateLeaveStats() {
@@ -137,25 +149,26 @@ export class DashboardComponent implements OnInit {
     let rejectedLeaves = 0;
 
     for (const application of this.leaveApplications) {
-      const startDate = new Date(application.startDate);
-      const endDate = new Date(application.endDate);
-      const leaveDays = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24) + 1;
       if (application.status === 'approved') {
-        approvedLeaves += leaveDays;
+        if (application.leaveDuration === 'AM' || application.leaveDuration === 'PM') {
+          approvedLeaves += 0.5;
+        } else {
+          approvedLeaves += this.getLeaveDays(application.startDate, application.endDate, application.leaveDuration);
+        }
       } else if (application.status === 'rejected') {
-        rejectedLeaves += leaveDays;
-      }
+        rejectedLeaves += this.getLeaveDays(application.startDate, application.endDate, application.leaveDuration);
+      } 
     }
     this.totalApprovedLeave = approvedLeaves;
     this.totalRejectedLeave = rejectedLeaves;
     this.totalBalancedLeave = this.totalAssignedLeave - approvedLeaves;
   }
 
-  // onProfileUpdated(updatedProfile: any) {
-  //   this.user = updatedProfile;
-  //   sessionStorage.setItem('user', JSON.stringify(updatedProfile));
-  //   this.loadLeaveApplications();
-  //   this.closeProfile();
-  // }
+  onProfileUpdated(updatedProfile: any) {
+    this.user = updatedProfile.username;
+    sessionStorage.setItem('user', JSON.stringify(updatedProfile));
+    this.loadLeaveApplications();
+    this.closeProfile();
+  }
 
 }

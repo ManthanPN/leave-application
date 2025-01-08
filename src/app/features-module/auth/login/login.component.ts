@@ -13,8 +13,8 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
-  email: string = '';
-  birthdate: string = '';
+  // email: string = '';
+  // birthdate: string = '';
 
   constructor(
     private leaveService: LeaveApplicationServiceService,
@@ -47,31 +47,4 @@ export class LoginComponent implements OnInit {
   }
 
 }
-// login(form: NgForm) {
-//   if (form.invalid) {
-//     return;
-//   }
 
-//   const objSave = {
-//     username: this.username,
-//     password: this.password
-//   };
-
-//   this.leaveService.Login(objSave).subscribe(response => {
-//     if (response === "Success") {
-//       this.leaveService.GetAllUsers().subscribe(users => {
-//         const user = users[0];
-//         this.email = user.email;
-//         this.birthdate = user.birthdate;
-//         this.authService.login(user.role, this.username, this.password, user.id, this.email, this.birthdate);
-//         if (user.role === 'manager') {
-//           this.router.navigate(['/manage-leave']);
-//         } else {
-//           this.router.navigate(['insurance/dashboard']);
-//         }
-//       });
-//     } else {
-//       this.toastr.error('Invalid credentials');
-//     }
-//   });
-// }

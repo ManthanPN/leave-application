@@ -1,48 +1,159 @@
+.background {
+  width: 100%;
+  height: 100vh;
+  background-color: #63777f;
+  
+  /* background: linear-gradient(300deg, #b18319, #13808e, #2a2a6a); */
+}
+
+.background {
+  width: 100%;
+  height: 100vh;
+  background-color: #bac6ca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 2em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .form-container h1 {
-    text-align: center;
-    margin-bottom: 1em;
-    cursor: none;
-  }
-  
-  .form-group {
-    margin-bottom: 1em;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5em;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  .btn {
-    display: block;
-    width: 100%;
-    padding: 0.7em;
-    border: none;
-    border-radius: 3px;
-    background-color: #007BFF;
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  
+  width: 100%;
+  max-width: 460px;
+  background: rgba(243, 243, 243, 0.96);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.image-container {
+  width: 100%;
+  height: 200px;
+  background: url('../../../../assets/Image/wallbg1.jpg') no-repeat center center / cover; /* Replace with your image path */
+  position: relative;
+}
+
+.login-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.form-content {
+  background-color: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin-top: -20px; /* Overlap to create curve */
+  padding: 2em;
+  position: relative;
+}
+
+.form-content:before {
+  content: '';
+  /* position: absolute; */
+  /* top: -5px; */
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: white;
+  border-radius: 50% / 100%;
+}
+
+
+.label{
+  text-decoration: none;
+  font-weight:500;
+}
+
+.register-link {
+  color: #1d122e;
+  margin-left: 0.2rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.regsiter-text {
+  color: #1c1922;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration:dotted;
+  color: #581bba;
+}
+
+.form-container h1 {
+  text-align: center;
+  margin-bottom: 1em;
+  cursor: none;
+}
+
+
+
+
+input, select {
+  width: 100%;
+  padding: 0.5em;
+  /* border: 1px solid rgba(255, 255, 255, 0.4);  */
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.301); 
+  color: #2e273a; 
+  backdrop-filter: blur(2px); 
+  -webkit-backdrop-filter: blur(2px);
+  transition: background 0.3s ease, border 0.3s ease;
+}
+
+ input:focus, select:focus  {
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+  /* border: 1px solid rgba(255, 255, 255, 0.6); */
+}
+
+input::placeholder, select::placeholder {
+  color: rgba(46, 39, 58, 0.7); /* Semi-transparent placeholder color */
+}
+
+select option {
+  margin-top: 2rem;
+  background: rgba(240, 240, 240, 0.949); /* Background color for dropdown options */
+  color: #121212; /* Text color for options */
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fffffff3;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 0.7em;
+  border: none;
+  border-radius: 24px;
+  background-color: #18222c;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}

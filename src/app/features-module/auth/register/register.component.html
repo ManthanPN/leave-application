@@ -1,20 +1,29 @@
-<div class="form-container">
-  <h1>Register</h1>
-  <form (ngSubmit)="Register()">
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" [(ngModel)]="username" name="username" required>
+<div class="background">
+  <div class="form-container">
+    <div class="image-container">
+      <h1 class="login-text">Register</h1>
     </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" [(ngModel)]="password" name="password" required>
+    <div class="form-content">
+      <form (ngSubmit)="Register()">
+        <div class="form-group">
+          <label class="label" for="username">Username</label>
+          <input type="text" id="username" [(ngModel)]="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label class="label" for="password">Password</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" required>
+        </div>
+        <div class="form-group">
+          <label class="label" for="role">Role</label>
+          <select id="role" [(ngModel)]="role" name="role" required>
+            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+      <p class="regsiter-text">Have an account?
+        <a routerLink="/login" class="login-link">Sign in</a>
+      </p>
     </div>
-    <div class="form-group">
-      <label for="role">Role</label>
-      <select id="role" [(ngModel)]="role" name="role" required>
-        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-      </select>
-    </div>
-    <button type="submit" class="btn">Register</button>
-  </form>
+  </div>
 </div>

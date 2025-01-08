@@ -1,5 +1,5 @@
 <div class="manage-leaves-container">
-  <h1>Manage Leaves</h1>
+  <h1 class="pt-4">Manage Leaves</h1>
   <div class="user-leave-container">
     <ul class="user-list-border">
       <ul class="user-list">
@@ -9,7 +9,9 @@
             <div class="leave-display-info">
               <p class="label"><strong>{{ leave.username }}</strong></p>
               <p class="b"><strong><span style="font-size: 40px;">{{ getTotalLeaveDays(leave.username) }}</span></strong> Day(s)</p>
-              <span *ngIf="hasPendingLeaves(leave.username)" class="notification-counter">{{ getPendingLeaveCount(leave.username) }}</span>
+              <span *ngIf="hasPendingLeaves(leave.username)" class="notification-counter">
+                {{ getPendingLeaveCount(leave.username) }}
+              </span>
             </div>
           </li>
         </a>
@@ -22,12 +24,14 @@
           <div class="leave-info">
             <p><strong>Name: </strong> {{ leave.username }}</p>
             <p><strong>Reason: </strong> {{ leave.reason }}</p>
-            <p><strong>Leave Days: </strong><span>{{ getLeaveDays(leave.startDate, leave.endDate) }}</span></p>
+            <p><strong>Leave Days: </strong><span>{{ getLeaveDays(leave.startDate, leave.endDate, leave.leaveDuration) }}</span></p>
             <p><strong>Status: </strong> <span class="status {{ leave.status }}">{{ leave.status }}</span></p>
           </div>
           <div class="leave-actions">
-            <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'" (click)="approveLeave(leave.id)" class="approve-btn">Approve</button>
-            <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'" (click)="rejectLeave(leave.id)" class="reject-btn">Reject</button>
+            <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'" (click)="approveLeave(leave.id)"
+              class="approve-btn">Approve</button>
+            <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'" (click)="rejectLeave(leave.id)"
+              class="reject-btn">Reject</button>
             <button (click)="deleteLeave(leave.id)" class="delete-btn">
               <i class="fa fa-trash"></i>
             </button>

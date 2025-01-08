@@ -3,6 +3,8 @@ import { LeaveApplicationServiceService } from '../../../api-service/leave-appli
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../../auth.service';
+import { LoginComponent } from '../login/login.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -14,12 +16,15 @@ export class RegisterComponent implements OnInit {
   username: string = '';
   password: string = '';
   role: string = '';
-  leaveDays: number;
+  leaveDays: number = 26;
   roles: string[] = [];
+  email: string = '';
+  birthdate: string = '';
   constructor(
     private authService: AuthService,
     private leaveService: LeaveApplicationServiceService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService 
   ) { }
 
   ngOnInit(): void {
@@ -33,34 +38,27 @@ export class RegisterComponent implements OnInit {
       Username: this.username,
       Password: this.password,
       Role: this.role,
-      LeaveDays: 26
+      LeaveDays: this.leaveDays,
+      Email: this.email,
+      Birthdate: this.birthdate
     };
-    
-    this.leaveService.Register(user).subscribe(response => {
-      this.authService.setSessionStorage(user.Username);
-      // console.log('user',user);
-      // console.log('respons',response);
-      this.router.navigate(['/login']);
-    })
-  }
+    this.leaveService.getEmployees().subscribe((employees: any[]) => {
+      const usernameExists = employees.some(emp => emp.username === user.Username);
+      if (usernameExists) {
+        this.toastr.error('Username already exists.');
+        return;
+      } 
+      this.leaveService.Register(user).subscribe(response => {
+        if (response) {
+          this.authService.setSessionStorage(user.Username);
+          this.router.navigate(['/login']);
+          this.toastr.success('Registration Successful');
+        } else {
+          this.toastr.error('Registration failed. Please try again.');
+        }
+      });
+    });
+  } 
 
-  // register(form: NgForm) {
-  //   if (form.invalid) {
-  //     return;
-  //   }
-  //   this.leaveService.getUserByUsername(this.username).subscribe(existingUsers => {
-  //     if (existingUsers.length > 0) {
-  //       alert('Username already exists');
-  //     } else {
-  //       this.leaveService.getAllUsers().subscribe(users => {
-  //         const userId = (users.length + 1).toString();
-  //         const user = { id: userId, username: this.username, password: this.password, role: this.role, leaveDays: 26 };
-  //         this.leaveService.register(user).subscribe(() => {
-  //           this.router.navigate(['/login']);
-  //         });
-  //       });
-  //     }
-  //   });
-  // }
 }
 

@@ -17,7 +17,7 @@ export class ManageLeaveComponent implements OnInit {
   selectedUsername: string = '';
   leaveData: any[] = [];
   user: any;
-
+  // leaveDurationTime: any[] = [] ;
   constructor(
     private leaveService: LeaveApplicationServiceService,
     private authService: AuthService,
@@ -34,6 +34,11 @@ export class ManageLeaveComponent implements OnInit {
     this.leaveService.getLeaveApplications().subscribe(applications => {
       this.leaveApplications = applications;
       this.uniqueLeaveApplications = this.filterUniqueUsernames(applications);
+      // this.leaveApplications.forEach((data:any) => {
+      //   this.leaveDurationTime = data.leaveDuration,
+      //   console.log(`Leave ID: ${data.id}, Duration: ${data.leaveDuration}`);
+      //   console.log('leave duration : ',this.leaveDurationTime);
+      // });
       console.log('leave user', this.leaveApplications);
     });
 
@@ -67,16 +72,23 @@ export class ManageLeaveComponent implements OnInit {
   getTotalLeaveDays(username: string): number {
     return this.leaveApplications.reduce((total, leave) => {
       if (leave.username === username && leave.status === 'approved') {
-        return total + this.getLeaveDays(leave.startDate, leave.endDate);
+        return total + this.getLeaveDays(leave.startDate, leave.endDate, leave.leaveDuration);
       }
       return total;
     }, 0);
   }
 
-  getLeaveDays(startDate: string, endDate: string): number {
+  getLeaveDays(startDate: string, endDate: string, leaveDuration: string): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    return Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+    let totalDays = Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+    if (leaveDuration === 'AM' || leaveDuration === 'PM') {     
+      return 0.5; // Half-day leave
+    } else if (leaveDuration === 'Full Day') {
+      return totalDays; // Full days leave
+    } else {
+      return totalDays; // Default to full day if leaveDuration is missing
+    }
   }
 
   getLeaveApplications(): void {
