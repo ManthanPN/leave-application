@@ -35,16 +35,17 @@
       <a (click)="openModal()" class="open-modal-link">Apply Leave</a>
       <div class="dot-view">
         <div class="border-anim">
-            <span class="border-anim_line border-anim_line_left"></span>
-            <span class="border-anim_line border-anim_line_right"></span>
-            <span class="border-anim_line border-anim_line_top"></span>
-            <span class="border-anim_line border-anim_line_bottom"></span>
+          <span class="border-anim_line border-anim_line_left"></span>
+          <span class="border-anim_line border-anim_line_right"></span>
+          <span class="border-anim_line border-anim_line_top"></span>
+          <span class="border-anim_line border-anim_line_bottom"></span>
         </div>
         <span class="status-dot approved">Approved</span>
         <span class="status-dot rejected">Rejected</span>
         <span class="status-dot pending">Pending</span>
+      </div>
     </div>
-    </div>
+
     <div class="modal" [class.show]="isModalOpen">
       <div class="modal-content">
         <span class="close" (click)="closeModal()">
@@ -56,8 +57,21 @@
       </div>
     </div>
     <div class="calendar-container">
-      <app-calendar [leaveApplications]="filteredApplications" (dateSelected)="onDateSelected($event)">
+      <app-calendar (pendingLeaveAction)="openPendingLeaveModal($event)" [leaveApplications]="filteredApplications"
+        (dateSelected)="onDateSelected($event)">
       </app-calendar>
+    </div>
+    <div class="modal" [class.show]="isPendingLeaveModalOpen">
+      <div class="modal-content">
+        <h2>Pending Leave Action</h2>
+        <p>Your leave from <strong>{{ selectedPendingLeave?.startDate }}</strong> to <strong>{{
+            selectedPendingLeave?.endDate }}</strong> is pending. What would you like to do?</p>
+        <div class="modal-actions">
+          <button class="btn cancel-btn" (click)="handlePendingLeaveAction('cancel')">Yes</button>
+          <button class="btn submit-btn" (click)="closePendingModal()">No</button>
+        </div>
+        <span class="close" (click)="closePendingModal()">&#10006;</span>
+      </div>
     </div>
   </div>
   <div class="leave-container" [ngClass]="{'closed': isLeaveContainerClosed}">
@@ -95,7 +109,8 @@
           <div class="application-details">
             <p>Start Date: <span>{{ FormatDate(application.startDate) }}</span></p>
             <p>End Date: <span>{{ FormatDate(application.endDate) }}</span></p>
-            <p>Duration: <span>{{ getLeaveDays(application.startDate, application.endDate , application.leaveDuration) }} Day(s)</span></p>
+            <p>Duration: <span>{{ getLeaveDays(application.startDate, application.endDate , application.leaveDuration)
+                }} Day(s)</span></p>
             <p>Reason: <span>{{ application.reason }}</span></p>
           </div>
         </li>

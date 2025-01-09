@@ -17,9 +17,11 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5'
 export class CalendarComponent implements OnInit, OnChanges {
   @Input() leaveApplications: any[] = [];
   @Output() dateSelected = new EventEmitter<{ start: string, end: string }>();
+  @Output() pendingLeaveAction = new EventEmitter<any>();
 
   user: string | null = '';
   selectedDates: Set<string> = new Set();
+  pendingLeaves: Map<string, any> = new Map();
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin, bootstrap5Plugin],
@@ -68,6 +70,8 @@ export class CalendarComponent implements OnInit, OnChanges {
           const dateString = currentDate.toISOString().split('T')[0];
           if (app.status === 'approved') {
             this.selectedDates.add(dateString);
+          } else if (app.status === 'pending'){
+            this.pendingLeaves.set(dateString, app);
           }
           currentDate.setDate(currentDate.getDate() + 1);
         }
@@ -90,6 +94,13 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   handleDateSelect(selectInfo: any) {
     const start = selectInfo.startStr;
+
+    if (this.pendingLeaves.has(start)) {
+      const pendingLeave = this.pendingLeaves.get(start);
+      this.pendingLeaveAction.emit(pendingLeave);
+      return;
+    }
+
     const selectedEndDate = new Date(selectInfo.endStr);
     selectedEndDate.setDate(selectedEndDate.getDate() - 1);
     const end = selectedEndDate.toISOString().split('T')[0];
@@ -97,7 +108,13 @@ export class CalendarComponent implements OnInit, OnChanges {
     let currentDate = new Date(start);
     while (currentDate <= new Date(end)) {
       const currentDateString = currentDate.toISOString().split('T')[0];
-      if (this.selectedDates.has(currentDateString)) {
+      const isPending = this.leaveApplications.some(
+        (app) =>
+          app.status === 'pending' &&
+          new Date(app.startDate) <= currentDate &&
+          currentDate <= new Date(app.endDate)
+      );
+      if (this.selectedDates.has(currentDateString) || isPending ) {
         this.toastr.warning('Date is already approved.');
         return;
       }
