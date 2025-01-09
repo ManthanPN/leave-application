@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
 import { AuthService } from '../../../auth.service';
 import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,9 @@ export class DashboardComponent implements OnInit {
   totalRejectedLeave: number = 0;
   totalBalancedLeave: number = 26;
 
-  pendingLeaveDetails: any = null;
+  isPendingLeaveModalOpen = false;
+  selectedPendingLeave: any | null = null;
+
   isModalOpen = false;
   isLeaveContainerClosed: boolean = false;
   isDropdownOpen = false;
@@ -37,6 +40,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private leaveService: LeaveApplicationServiceService,
     private authService: AuthService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -66,6 +70,30 @@ export class DashboardComponent implements OnInit {
     if (this.applyLeaveComponent) {
       this.applyLeaveComponent.resetForm();
     }
+  }
+
+  /* LEAVE CANCLE */
+  openPendingLeaveModal(leave: any) {
+    this.selectedPendingLeave = leave;
+    this.isPendingLeaveModalOpen = true;
+  }
+  closePendingModal() {
+    this.isPendingLeaveModalOpen = false;
+    this.selectedPendingLeave = null;
+  }
+  handlePendingLeaveAction(action: string) {
+    if (action === 'cancel') {
+      this.cancelPendingLeave(this.selectedPendingLeave.id);
+    }
+    this.selectedPendingLeave = null;
+    this.closePendingModal();
+  }
+  cancelPendingLeave(leaveId: number) {
+    this.leaveService.deleteLeave(leaveId).subscribe((d) => {
+      console.log('delete',d);
+      this.toastr.success('Pending leave request has been canceled.');
+      this.loadLeaveApplications();
+    });
   }
 
   onLeaveApplied(newLeave: any) {
