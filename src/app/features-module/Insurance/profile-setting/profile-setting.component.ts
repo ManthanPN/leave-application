@@ -2,9 +2,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
-import { AuthService } from '../../../auth.service';
 import { LoadingService } from '../../services/loading.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '../../../../../framework/core/src/lib/models';
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-profile-setting',
@@ -32,7 +32,7 @@ export class ProfileSettingComponent implements OnInit {
   ngOnInit(): void {
     this.leaveService.getEmployees().subscribe((employees: any[]) => {
       this.emp = employees;
-      this.username = this.authService.getSessionStorage();
+      this.username = this.authService.getUserId();
       const loggedInUser = this.emp.find((emp:any) => emp.username === this.username);
       if (loggedInUser) {
         this.user = loggedInUser;

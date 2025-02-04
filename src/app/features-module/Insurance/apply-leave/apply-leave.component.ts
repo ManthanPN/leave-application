@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../auth.service';
+import { AuthService } from '../../../service/auth.service';
 import { LoadingService } from '../../services/loading.service';
 
 @Component({
@@ -49,7 +49,7 @@ export class ApplyLeaveComponent implements OnInit {
   ngOnInit(): void {
     this.LeaveType();
     this.LeaveDuration();
-    this.user = this.authService.getSessionStorage();
+    this.user = this.authService.getUserId();
   }
 
   getLeaveApplications(): void {
@@ -81,6 +81,7 @@ export class ApplyLeaveComponent implements OnInit {
       }
 
       const newLeave = {
+        id: this.id,
         startDate: this.startDate,
         endDate: this.endDate,
         typeLeave: this.typeLeave,

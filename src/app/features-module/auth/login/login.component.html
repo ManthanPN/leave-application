@@ -13,12 +13,56 @@
           <label class="label" for="password">Password</label>
           <input type="password" id="password" [(ngModel)]="password" name="password" required>
         </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" class="w-auto">
+            <span class="ps-2">Remember Me</span>
+          </label>
+        </div>
         <button type="submit" class="btn">Submit</button>
       </form>
+      <p class="forgot-password-text">
+        <a (click)="openForgotPasswordModal()" class="forgot-password-link">Forgot Password?</a>
+      </p>
       <p class="regsiter-text">
         Don't have an account?
         <a routerLink="/register" class="register-link">Sign up</a>
       </p>
     </div>
+  </div>
+</div>
+
+<!-- <div *ngIf="showForgotPassword" class="forgot-password-modal">
+  <div class="modal-content">
+    <h2>Forgot Password</h2>
+    <form #forgotPasswordForm="ngForm" (ngSubmit)="sendOTP()">
+      <div class="form-group">
+        <label class="label" for="emailOrPhone">Email or Phone</label>
+        <input type="text" id="emailOrPhone" [(ngModel)]="emailOrPhone" name="emailOrPhone" required>
+      </div>
+      <button type="submit" class="btn">Send OTP</button>
+      <button type="button" class="btn cancel" (click)="closeForgotPasswordModal()">Cancel</button>
+    </form>
+  </div>
+</div> -->
+
+<div *ngIf="showForgotPassword" class="forgot-password-modal">
+  <div class="modal-content">
+    <h2>Forgot Password</h2>
+    <div *ngIf="!showOTPForm">
+      <label for="emailOrPhone">Enter Email</label>
+      <input type="text" id="emailOrPhone" [(ngModel)]="email">
+      <button (click)="sendOTP()" class="btn">Send OTP</button>
+    </div>
+
+    <div *ngIf="showOTPForm">
+      <label for="otp">Enter OTP</label>
+      <input type="text" id="otp" [(ngModel)]="otp">
+      <label for="newPassword">Enter New Password</label>
+      <input type="password" id="newPassword" [(ngModel)]="newPassword">
+      <button (click)="resetPassword()" class="btn">Reset Password</button>
+    </div>
+
+    <button (click)="showForgotPassword = false" class="btn cancel">Cancel</button>
   </div>
 </div>

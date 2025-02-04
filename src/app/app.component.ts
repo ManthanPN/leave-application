@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LeaveApplicationServiceService } from './api-service/leave-application-service.service';
 import { Location } from '@angular/common';
-import { AuthService } from './auth.service';
+import { AuthService } from './service/auth.service';
 import { Router } from '@angular/router';
 import { LoadingService } from './features-module/services/loading.service';
 
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn;
+    return this.authService.isLogged();
   }
 
   toggleSideNav() {

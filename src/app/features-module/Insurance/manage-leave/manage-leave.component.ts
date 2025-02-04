@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
-import { AuthService } from '../../../auth.service';
+import { AuthService } from '../../../service/auth.service';
 import { LoadingService } from '../../services/loading.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';

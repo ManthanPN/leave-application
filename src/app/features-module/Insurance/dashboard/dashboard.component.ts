@@ -1,8 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
-import { AuthService } from '../../../auth.service';
+import { AuthService } from '../../../service/auth.service';
 import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +14,7 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild(ApplyLeaveComponent) applyLeaveComponent!: ApplyLeaveComponent;
 
+  name: string | null = null;
   // user: any;
   leaveApplications: any[] = [];
   totalAssignedLeave: number = 26;
@@ -40,18 +42,28 @@ export class DashboardComponent implements OnInit {
   constructor(
     private leaveService: LeaveApplicationServiceService,
     private authService: AuthService,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
-    this.user = this.authService.getSessionStorage();
+
+  const token = this.authService.getToken();
+    
+    this.route.queryParams.subscribe(params => {
+      if (params.data) {
+        this.name = this.authService.decryptData(params.data); 
+      }
+    });
+
+    this.user = this.name;
     this.loadLeaveApplications();
     this.updateLeaveBalance();
   }
 
   loadLeaveApplications() {
-    this.leaveService.getLeaveApplications().subscribe(applications => {
-      this.leaveApplications = applications.filter((app: any) => app.username === this.user)
+    this.leaveService.getLeaveApplications().subscribe((applications: any[]) => {
+      this.leaveApplications = applications.filter((data: any) => data.username === this.user)
         .sort((a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
       console.log('leave app', this.leaveApplications);
       this.calculateLeaveStats();
@@ -60,7 +72,7 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleDropdown() { this.isDropdownOpen = !this.isDropdownOpen; }
-  
+
   openProfile() { this.isProfileModalOpen = true; }
   closeProfile() { this.isProfileModalOpen = false; }
 
@@ -88,10 +100,13 @@ export class DashboardComponent implements OnInit {
     this.selectedPendingLeave = null;
     this.closePendingModal();
   }
+
   cancelPendingLeave(leaveId: number) {
     this.leaveService.deleteLeave(leaveId).subscribe((d) => {
-      console.log('delete',d);
+      console.log('delete', d);
       this.toastr.success('Pending leave request has been canceled.');
+      this.leaveApplications = this.leaveApplications.filter((app: any) => app.id !== leaveId);
+      this.filteredApplications = this.filteredApplications.filter((app) => app.id !== leaveId);
       this.loadLeaveApplications();
     });
   }
@@ -99,7 +114,7 @@ export class DashboardComponent implements OnInit {
   onLeaveApplied(newLeave: any) {
     this.leaveApplications.push(newLeave);
     this.loadLeaveApplications();
-    this.calculateLeaveStats(); 
+    this.calculateLeaveStats();
     this.closeModal()
   }
 
@@ -122,7 +137,7 @@ export class DashboardComponent implements OnInit {
     if (this.selectedStatus === 'all') {
       this.filteredApplications = [...this.leaveApplications];
     } else {
-      this.filteredApplications = this.leaveApplications.filter(application => application.status === this.selectedStatus);    
+      this.filteredApplications = this.leaveApplications.filter(application => application.status === this.selectedStatus);
     }
   }
 
@@ -158,10 +173,10 @@ export class DashboardComponent implements OnInit {
   }
 
   //Leave Status 
-  getLeaveDays(startDate: string, endDate: string, leaveDuration:string ): number {
+  getLeaveDays(startDate: string, endDate: string, leaveDuration: string): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    let calLeaves =  Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+    let calLeaves = Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
     if (leaveDuration == 'AM' || leaveDuration == 'PM') {
       return 0.5;
     }
@@ -185,7 +200,7 @@ export class DashboardComponent implements OnInit {
         }
       } else if (application.status === 'rejected') {
         rejectedLeaves += this.getLeaveDays(application.startDate, application.endDate, application.leaveDuration);
-      } 
+      }
     }
     this.totalApprovedLeave = approvedLeaves;
     this.totalRejectedLeave = rejectedLeaves;

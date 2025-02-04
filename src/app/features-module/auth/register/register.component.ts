@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../../../auth.service';
+import { AuthService } from '../../../service/auth.service';
 import { LoginComponent } from '../login/login.component';
 import { ToastrService } from 'ngx-toastr';
 
@@ -31,10 +31,12 @@ export class RegisterComponent implements OnInit {
     this.leaveService.getRoles().subscribe(roles => {
       this.roles = roles;
     });
+    this.Register();
   }
 
   Register(): void {
     const user = {
+      Id : this.id,
       Username: this.username,
       Password: this.password,
       Role: this.role,
@@ -42,15 +44,25 @@ export class RegisterComponent implements OnInit {
       Email: this.email,
       Birthdate: this.birthdate
     };
-    this.leaveService.getEmployees().subscribe((employees: any[]) => {
-      const usernameExists = employees.some(emp => emp.username === user.Username);
-      if (usernameExists) {
-        this.toastr.error('Username already exists.');
+    
+    this.leaveService.getEmployees().subscribe((response: any) => {
+      debugger;
+      const employees = response.employees;
+      if (!Array.isArray(employees)) {
+        console.error("Invalid response format", response);
+        this.toastr.error("Error fetching employee data.");
         return;
-      } 
+      }
+      const idExists = employees.some((emp: any) => emp.id === user.Id);
+      if (idExists) {
+        this.toastr.error('User with this ID already exists.');
+        return;
+      }
+  
+      debugger
       this.leaveService.Register(user).subscribe(response => {
         if (response) {
-          this.authService.setSessionStorage(user.Username);
+          this.authService.setSessionStorage(response.employee.id, response.token, response.employee.role);
           this.router.navigate(['/login']);
           this.toastr.success('Registration Successful');
         } else {
@@ -58,7 +70,6 @@ export class RegisterComponent implements OnInit {
         }
       });
     });
-  } 
-
+  }
 }
 

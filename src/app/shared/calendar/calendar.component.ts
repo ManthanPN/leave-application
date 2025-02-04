@@ -3,7 +3,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { LeaveApplicationServiceService } from '../../api-service/leave-application-service.service';
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../service/auth.service';
 import { LoadingService } from '../../features-module/services/loading.service';
 import { ToastrService } from 'ngx-toastr';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5'
@@ -79,7 +79,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   populateCalendarEvents() {
-    this.user = this.authService.getSessionStorage();
+    this.user = this.authService.getUserId();
     this.calendarOptions.events = this.leaveApplications
       .filter(app => app.username === this.user)
       .map(app => ({
