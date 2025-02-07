@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit {
         }
         const encryptedUsername = this.authService.encryptData(response.employee.username);
         const encryptedRole = this.authService.encryptData(response.employee.role);
-        this.authService.setSessionStorage(response.token, response.employee.username, response.employee.role);
+        this.authService.setSessionStorage(response.token, response.employee.username, response.employee.role, response.employee.id);
         const encryptedUserId = CryptoJS.AES.encrypt(encryptedUsername, this.authService.encrptSecretKey).toString();
         this.authService.setLoggedIn(true);
 

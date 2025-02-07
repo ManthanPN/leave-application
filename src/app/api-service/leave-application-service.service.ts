@@ -40,7 +40,7 @@ export class LeaveApplicationServiceService {
   }
 
   getEmployees(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/GetEmployees`, { headers: this.getHeaders() });
+    return this.http.get(`${this.apiUrl}/GetEmployees`, { headers: this.getHeaders() });
   }
 
   getRoles(): Observable<any> {

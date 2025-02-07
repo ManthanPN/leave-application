@@ -2,25 +2,25 @@
   <h3>Profile Update</h3>
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class="form-row">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" formControlName="username" />
+      <div class="form-group" >
+        <label for="username">Username </label>
+        <input type="text" id="username" [(ngModel)]="this.user.username" formControlName="username" required/>
       </div> 
       <div class="form-group">
         <label for="birthdate">Birthdate</label>
-        <input type="date" id="birthdate" formControlName="birthdate" />
+        <input type="date" id="birthdate"  [(ngModel)]="this.user.birthdate" formControlName="birthdate" required/>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" formControlName="password" />
+        <input type="password" id="password" [(ngModel)]="this.user.password" formControlName="password" required/>
       </div>
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" formControlName="confirmPassword" />
+        <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" formControlName="confirmPassword" required/>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" formControlName="email" />
+        <input type="email" id="email" [(ngModel)]="this.user.email"  formControlName="email" required/>
       </div>
     </div>
     <div class="form-actions">

@@ -3,7 +3,7 @@ import { LeaveApplicationServiceService } from '../../../api-service/leave-appli
 import { AuthService } from '../../../service/auth.service';
 import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,16 +43,18 @@ export class DashboardComponent implements OnInit {
     private leaveService: LeaveApplicationServiceService,
     private authService: AuthService,
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
 
-  const token = this.authService.getToken();
-    
+    const getUser = this.authService.getId();
+    console.log('user', getUser);
+
     this.route.queryParams.subscribe(params => {
       if (params.data) {
-        this.name = this.authService.decryptData(params.data); 
+        this.name = this.authService.decryptData(params.data);
       }
     });
 
@@ -74,6 +76,13 @@ export class DashboardComponent implements OnInit {
   toggleDropdown() { this.isDropdownOpen = !this.isDropdownOpen; }
 
   openProfile() { this.isProfileModalOpen = true; }
+  // openProfile() {
+  //   const encryptedUsername = this.authService.encryptData(this.user);
+  //   this.router.navigate([], {
+  //     queryParams: { data: encryptedUsername },
+  //   });
+  //   this.isProfileModalOpen = true;
+  // }
   closeProfile() { this.isProfileModalOpen = false; }
 
   openModal() { this.isModalOpen = true; }

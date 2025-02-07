@@ -5,6 +5,7 @@ import { LeaveApplicationServiceService } from '../../../api-service/leave-appli
 import { LoadingService } from '../../services/loading.service';
 import { FormlyFieldConfig, FormlyFormOptions } from '../../../../../framework/core/src/lib/models';
 import { AuthService } from '../../../service/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile-setting',
@@ -14,11 +15,12 @@ import { AuthService } from '../../../service/auth.service';
 export class ProfileSettingComponent implements OnInit {
   @Output() profileUpdated = new EventEmitter<any>();
   userForm: FormGroup;
-  user: any = {};
+  user: any;
   model: any = {};
-  emp : any;
+  emp: any;
   username: any;
   confirmPassword: any;
+  id: any;
   // isLoading = false;
 
   constructor(
@@ -27,21 +29,32 @@ export class ProfileSettingComponent implements OnInit {
     private toastr: ToastrService,
     private loadingService: LoadingService,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
   ) { }
 
-  ngOnInit(): void {
-    this.leaveService.getEmployees().subscribe((employees: any[]) => {
-      this.emp = employees;
-      this.username = this.authService.getUserId();
-      const loggedInUser = this.emp.find((emp:any) => emp.username === this.username);
-      if (loggedInUser) {
-        this.user = loggedInUser;
+  ngOnInit() {
+
+    const getId = this.authService.getId();
+    this.id = getId
+    // this.route.queryParams.subscribe(params => {
+    //   // debugger
+    //   if (params.data) {
+    //     this.username = this.authService.decryptData(params.data);
+    //   }
+    // });
+    this.loadLeaveApplications();
+  }
+
+  loadLeaveApplications() {
+    this.leaveService.getEmployees().subscribe((response:any) => {
+      this.emp = response?.employees.filter((data: any) => data.id === this.id) 
+      if (this.emp) {
+        this.user = this.emp[0];
         this.setForm();
       } else {
         this.toastr.error('User not found');
       }
     });
-    this.setForm();
   }
 
   setForm() {
@@ -55,7 +68,7 @@ export class ProfileSettingComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.userForm.valid) {
+    if (this.userForm.valid){
       this.loadingService.showLoading();
 
       if (this.userForm.value.password !== this.userForm.value.confirmPassword) {
@@ -64,26 +77,26 @@ export class ProfileSettingComponent implements OnInit {
       }
 
       const updatedProfile = {
-        id: this.user.id,
-        username: this.user.username,
+        id: this.id,
+        username: this.userForm.value.username,
         password: this.userForm.value.password,
         email: this.userForm.value.email,
         birthdate: this.userForm.value.birthdate
       };
 
       this.leaveService.updateUser(updatedProfile).subscribe(
-      (data: any) => {
-        sessionStorage.setItem('user', JSON.stringify(updatedProfile));
-        this.authService.updateUserInfo(updatedProfile.username, updatedProfile.password, updatedProfile.email, updatedProfile.birthdate);
-        this.profileUpdated.emit(updatedProfile);
-        setTimeout(() => {
-          this.loadingService.hideLoading();
-          this.toastr.success('Profile updated successfully');
-        }, Math.random() * 1000 + 1000);
-      },
+        (data: any) => {
+          sessionStorage.setItem('user', JSON.stringify(updatedProfile));
+          this.authService.updateUserInfo(updatedProfile.username, updatedProfile.password, updatedProfile.email, updatedProfile.birthdate);
+          this.profileUpdated.emit(updatedProfile);
+          setTimeout(() => {
+            this.loadingService.hideLoading();
+            this.toastr.success('Profile updated successfully');
+          }, Math.random() * 1000 + 1000);
+        },
         (error: any) => {
           this.toastr.error('Error updating profile');
-          this.loadingService.hideLoading();  
+          this.loadingService.hideLoading();
         }
       );
     }

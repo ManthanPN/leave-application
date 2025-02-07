@@ -79,7 +79,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   populateCalendarEvents() {
-    this.user = this.authService.getUserId();
+    this.user = this.authService.getUsername();
     this.calendarOptions.events = this.leaveApplications
       .filter(app => app.username === this.user)
       .map(app => ({

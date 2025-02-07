@@ -46,7 +46,6 @@ export class RegisterComponent implements OnInit {
     };
     
     this.leaveService.getEmployees().subscribe((response: any) => {
-      debugger;
       const employees = response.employees;
       if (!Array.isArray(employees)) {
         console.error("Invalid response format", response);
@@ -62,7 +61,7 @@ export class RegisterComponent implements OnInit {
       debugger
       this.leaveService.Register(user).subscribe(response => {
         if (response) {
-          this.authService.setSessionStorage(response.employee.id, response.token, response.employee.role);
+          this.authService.setSessionStorage(response.employee.id, response.employee.username, response.token, response.employee.role);
           this.router.navigate(['/login']);
           this.toastr.success('Registration Successful');
         } else {

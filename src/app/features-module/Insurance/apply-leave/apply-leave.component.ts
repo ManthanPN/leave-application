@@ -49,7 +49,7 @@ export class ApplyLeaveComponent implements OnInit {
   ngOnInit(): void {
     this.LeaveType();
     this.LeaveDuration();
-    this.user = this.authService.getUserId();
+    this.user = this.authService.getUsername();
   }
 
   getLeaveApplications(): void {

@@ -28,18 +28,25 @@ export class AuthService {
     }
   }
 
-  setSessionStorage(token: string, username: string, role: string): void {
+  setSessionStorage(token: string, username: string, role: string, id :string): void {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('username', this.encryptData(username));
     sessionStorage.setItem('role', this.encryptData(role)); 
+    sessionStorage.setItem('id', this.encryptData(id));
     this.setLoggedIn(true);
   }
+
 
   getToken(): string | null {
     return sessionStorage.getItem('token');
   }
 
-  getUserId(): string | null {
+  getId(): string | null {
+    const encryptedId = sessionStorage.getItem('id');
+    return encryptedId ? this.decryptData(encryptedId) : null;
+  }
+
+  getUsername(): string | null {
     const encryptedUserId = sessionStorage.getItem('username');
     return encryptedUserId ? this.decryptData(encryptedUserId) : null;
   }
@@ -52,11 +59,6 @@ export class AuthService {
   updateUserInfo(username: string, password: string, email?: string, birthdate?: string): void {
     const user = { username, password, email, birthdate };
     sessionStorage.setItem('user', JSON.stringify(user));
-  }
-
-  getUserInfo(): any {
-    const user = sessionStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
   }
 
   clearSessionStorage(): void {
