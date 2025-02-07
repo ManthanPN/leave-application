@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LeaveApplicationServiceService } from '../../../api-service/leave-application-service.service';
 import { LoadingService } from '../../services/loading.service';
-import { FormlyFieldConfig, FormlyFormOptions } from '../../../../../framework/core/src/lib/models';
 import { AuthService } from '../../../service/auth.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -16,12 +15,9 @@ export class ProfileSettingComponent implements OnInit {
   @Output() profileUpdated = new EventEmitter<any>();
   userForm: FormGroup;
   user: any;
-  model: any = {};
   emp: any;
-  username: any;
   confirmPassword: any;
   id: any;
-  // isLoading = false;
 
   constructor(
     private authService: AuthService,
@@ -33,15 +29,7 @@ export class ProfileSettingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    const getId = this.authService.getId();
-    this.id = getId
-    // this.route.queryParams.subscribe(params => {
-    //   // debugger
-    //   if (params.data) {
-    //     this.username = this.authService.decryptData(params.data);
-    //   }
-    // });
+    this.id = this.authService.getId();
     this.loadLeaveApplications();
   }
 
@@ -84,8 +72,7 @@ export class ProfileSettingComponent implements OnInit {
         birthdate: this.userForm.value.birthdate
       };
 
-      this.leaveService.updateUser(updatedProfile).subscribe(
-        (data: any) => {
+      this.leaveService.updateUser(updatedProfile).subscribe(() => {
           sessionStorage.setItem('user', JSON.stringify(updatedProfile));
           this.authService.updateUserInfo(updatedProfile.username, updatedProfile.password, updatedProfile.email, updatedProfile.birthdate);
           this.profileUpdated.emit(updatedProfile);
