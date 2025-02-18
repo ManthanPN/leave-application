@@ -85,11 +85,13 @@ export class LoginComponent implements OnInit {
 
     this.leaveService.Login(credentials).subscribe(response => {
       if (response && response.token) {
-        if (this.rememberMe) {
-          localStorage.setItem('rememberedUsername', this.username);
-        } else {
-          localStorage.removeItem('rememberedUsername');
-        }
+        if(response.employee.id){
+          if (this.rememberMe) {
+            localStorage.setItem('rememberedUsername', this.username);
+          } else {
+            localStorage.removeItem('rememberedUsername');
+          } 
+        }    
         const encryptedUsername = this.authService.encryptData(response.employee.username);
         const encryptedRole = this.authService.encryptData(response.employee.role);
         this.authService.setSessionStorage(response.token, response.employee.username, response.employee.role, response.employee.id);

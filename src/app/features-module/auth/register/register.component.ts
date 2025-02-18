@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  id: number;
+  id: string;
   username: string = '';
   password: string = '';
   role: string = '';
@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
   roles: string[] = [];
   email: string = '';
   birthdate: string = '';
+  
   constructor(
     private authService: AuthService,
     private leaveService: LeaveApplicationServiceService,
@@ -58,10 +59,8 @@ export class RegisterComponent implements OnInit {
         return;
       }
   
-      debugger
       this.leaveService.Register(user).subscribe(response => {
         if (response) {
-          this.authService.setSessionStorage(response.employee.id, response.employee.username, response.token, response.employee.role);
           this.router.navigate(['/login']);
           this.toastr.success('Registration Successful');
         } else {

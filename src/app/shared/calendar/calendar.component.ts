@@ -7,6 +7,7 @@ import { AuthService } from '../../service/auth.service';
 import { LoadingService } from '../../features-module/services/loading.service';
 import { ToastrService } from 'ngx-toastr';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-calendar',
@@ -37,10 +38,17 @@ export class CalendarComponent implements OnInit, OnChanges {
     private leaveService: LeaveApplicationServiceService,
     private loadingService: LoadingService,
     private toastr: ToastrService,
+    private route: ActivatedRoute,
     private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    
+    this.route.queryParams.subscribe(params => {
+      if (params.data) {
+        this.user = this.authService.decryptData(params.data);
+      }
+    });
     this.loadLeaveApplications()
   }
 
@@ -51,15 +59,22 @@ export class CalendarComponent implements OnInit, OnChanges {
         this.updateSelectedDates();
         this.loadingService.hideLoading();
       }
-    }, Math.random() * 800 + 1000);
+    },  Math.random() * 800 + 1000);
   }
 
   loadLeaveApplications() {
     this.loadingService.showLoading();
     this.leaveService.getLeaveApplications().subscribe(applications => {
-      this.leaveApplications = applications;
+      // this.leaveApplications = applications;
+      this.leaveApplications = applications.filter((data: any) => data.username === this.user)
+      .sort((a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
     });
   }
+
+  // data(){
+  //   this.loadingService.hideLoading();
+  //   this.calendarOptions
+  // }
 
   updateSelectedDates() {
     this.selectedDates.clear();
@@ -87,6 +102,7 @@ export class CalendarComponent implements OnInit, OnChanges {
         start: app.startDate,
         end: new Date(new Date(app.endDate).setDate(new Date(app.endDate).getDate() + 1)).toISOString().split('T')[0],
         textColor: '#000',
+        width: '10px',
         backgroundColor: app.status === 'approved' ? '#7ddc58' : app.status === 'rejected' ? '#fe6262ea' : '#ffdd45',
         borderColor: 'white'
       }));
