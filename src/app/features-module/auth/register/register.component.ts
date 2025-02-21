@@ -61,6 +61,7 @@ export class RegisterComponent implements OnInit {
   
       this.leaveService.Register(user).subscribe(response => {
         if (response) {
+          localStorage.setItem('rememberedUsername', user.Username);
           this.router.navigate(['/login']);
           this.toastr.success('Registration Successful');
         } else {

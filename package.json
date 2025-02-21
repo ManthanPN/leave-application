@@ -45,6 +45,7 @@
     "crypto-js": "^4.2.0",
     "font-awesome": "^4.7.0",
     "json-serve": "^0.1.0",
+    "jwt-decode": "^4.0.0",
     "ng-circle-progress": "^1.7.1",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",

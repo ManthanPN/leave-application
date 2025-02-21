@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     const getUser = this.authService.getId();
     console.log('user', getUser);
 
@@ -76,13 +75,6 @@ export class DashboardComponent implements OnInit {
   toggleDropdown() { this.isDropdownOpen = !this.isDropdownOpen; }
 
   openProfile() { this.isProfileModalOpen = true; }
-  // openProfile() {
-  //   const encryptedUsername = this.authService.encryptData(this.user);
-  //   this.router.navigate([], {
-  //     queryParams: { data: encryptedUsername },
-  //   });
-  //   this.isProfileModalOpen = true;
-  // }
   closeProfile() { this.isProfileModalOpen = false; }
 
   openModal() { this.isModalOpen = true; }

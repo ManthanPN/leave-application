@@ -22,6 +22,18 @@ export class LeaveApplicationServiceService {
     });
   }
 
+  getLeaveApplication() {
+    return this.http.get('/api/leave-applications').pipe(
+      (error:any) => {
+        if (error.status === 401) {
+          this.authService.logout();
+          alert('Session expired. Please log in again.');
+        }
+        return error;
+      }
+    );
+  }
+
   Register(user: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/Register`, user);
   }
@@ -52,7 +64,15 @@ export class LeaveApplicationServiceService {
   }
 
   getLeaveApplications(): Observable<any> {
-    return this.http.get<any>(`${this.apiLeaveUrl}/GetLeaveApplications`, { headers: this.getHeaders() });
+    return this.http.get<any>(`${this.apiLeaveUrl}/GetLeaveApplications`, { headers: this.getHeaders() }).pipe(
+      (error:any) => {
+        if (error.status === 401) {
+          this.authService.logout();
+          alert('Session expired. Please log in again.');
+        }
+        return error;
+      }
+    );
   }
 
   approveLeave(id: number): Observable<any> {
