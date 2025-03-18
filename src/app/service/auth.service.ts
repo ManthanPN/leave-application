@@ -1,17 +1,53 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
+import { jwtDecode } from 'jwt-decode';
+
+// import * as jwtDecode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   encrptSecretKey = 'sdjJ5665JsdasdfsasdafdsfdfAFEMOEcmiemMOmc4Ej';
 
   private isLoggedInStatus: boolean = false;
   redirectUrl: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.startTokenCheck();
+   }
+
+  isTokenValid(token: string): boolean {
+    try {
+      const decodedToken: any = jwtDecode(token);
+      const expiryTime = decodedToken.exp * 1000;
+      return expiryTime > Date.now();
+    } catch (error) {
+      return false;
+    }
+  }
+
+  startTokenCheck(): void {
+    setInterval(() => {
+      const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+      if (token && !this.isTokenValid(token)) {
+        setTimeout(() => {
+          alert('Your session has expired. Please log in again.');
+          this.logout();
+        }, 500);
+       
+      }
+    }, 30000);
+  }
+
+  logout(): void {
+    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('authToken');
+    this.clearSessionStorage();
+    this.router.navigate(['/login']);
+  }
 
   encryptData(data: any): any {
     return CryptoJS.AES.encrypt(JSON.stringify(data), this.encrptSecretKey).toString();
@@ -76,11 +112,6 @@ export class AuthService {
   get isLoggedIn(): boolean {
     return this.isLoggedInStatus || !!this.getToken();
   }
-
-  // isAuthenticated(){
-  //   this.redirectUrl = this.router.url;
-  //     return this.isLoggedInStatus || !!this.getToken();
-  //   }
 
   isLogged(): boolean {
     const token = sessionStorage.getItem('token');

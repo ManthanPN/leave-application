@@ -31,12 +31,10 @@ export class RegisterComponent implements OnInit {
     this.leaveService.getRoles().subscribe(roles => {
       this.roles = roles;
     });
-    this.Register();
   }
 
   Register(): void {
     const user = {
-      Id : this.id,
       Username: this.username,
       Password: this.password,
       Role: this.role,
@@ -44,24 +42,15 @@ export class RegisterComponent implements OnInit {
       Email: this.email,
       Birthdate: this.birthdate
     };
-    
-    this.leaveService.getEmployees().subscribe((response: any) => {
-      const employees = response.employees;
-      if (!Array.isArray(employees)) {
-        console.error("Invalid response format", response);
-        this.toastr.error("Error fetching employee data.");
-        return;
-      }
-      const idExists = employees.some((emp: any) => emp.id === user.Id);
-      if (idExists) {
-        this.toastr.error('User with this ID already exists.');
-        return;
-      }
-  
-      debugger
+    this.leaveService.getEmployees().subscribe((employees: any[]) => {
+      // const usernameExists = employees.some(emp => emp.username === user.Username);
+      // if (usernameExists) {
+      //   this.toastr.error('Username already exists.');
+      //   return;
+      // } 
       this.leaveService.Register(user).subscribe(response => {
         if (response) {
-          this.authService.setSessionStorage(response.employee.id, response.employee.username, response.token, response.employee.role);
+          localStorage.setItem('rememberedUsername', user.Username);
           this.router.navigate(['/login']);
           this.toastr.success('Registration Successful');
         } else {
@@ -69,6 +58,7 @@ export class RegisterComponent implements OnInit {
         }
       });
     });
-  }
+  } 
+
 }
 

@@ -31,6 +31,20 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // const savedToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    // if (savedToken) {
+    //   if (this.authService.isTokenValid(savedToken)) {
+    //     const savedUserId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
+    //     this.authService.setLoggedIn(true);
+    //     this.router.navigate(['/insurance/dashboard'], { queryParams: { data: savedUserId } });
+    //   } else {
+    //     localStorage.removeItem('authToken');
+    //     sessionStorage.removeItem('authToken');
+    //     this.authService.clearSessionStorage();
+    //     this.router.navigate(['/login']);
+    //   }
+    // }
+
     const savedUsername = localStorage.getItem('rememberedUsername');
     if (savedUsername) {
       this.username = savedUsername;
@@ -85,30 +99,44 @@ export class LoginComponent implements OnInit {
 
     this.leaveService.Login(credentials).subscribe(response => {
       if (response && response.token) {
-        if (this.rememberMe) {
-          localStorage.setItem('rememberedUsername', this.username);
-        } else {
-          localStorage.removeItem('rememberedUsername');
-        }
+        const token = response.token;
+        const userId = response.employee.id;
         const encryptedUsername = this.authService.encryptData(response.employee.username);
         const encryptedRole = this.authService.encryptData(response.employee.role);
-        this.authService.setSessionStorage(response.token, response.employee.username, response.employee.role, response.employee.id);
+
+        if (userId) {
+          if (this.username) {
+            localStorage.setItem('rememberedUsername', this.username);
+          } else {
+            localStorage.removeItem('rememberedUsername');
+          }
+        }
+
+        if (this.rememberMe) {
+          localStorage.setItem('authToken', token);
+          localStorage.setItem('userId', userId);
+        } else {
+          sessionStorage.setItem('authToken', token);
+          sessionStorage.setItem('userId', userId);
+        }
+
         const encryptedUserId = CryptoJS.AES.encrypt(encryptedUsername, this.authService.encrptSecretKey).toString();
+        this.authService.setSessionStorage(response.token, response.employee.username, response.employee.role, response.employee.id);
         this.authService.setLoggedIn(true);
 
         const role = this.authService.decryptData(encryptedRole);
-        const userId = this.authService.decryptData(encryptedUserId);
+        const userData = this.authService.decryptData(encryptedUserId);
         if (role === 'Employee') {
-          this.router.navigate(['insurance/dashboard'], { queryParams: { data: userId } });
+          this.router.navigate(['insurance/dashboard'], { queryParams: { data: userData } });
         } else if (role === 'Manager') {
-          this.router.navigate(['/manage-leave'], { queryParams: { data: userId }});
+          this.router.navigate(['/manage-leave'], { queryParams: { data: userData } });
         } else {
           this.toastr.error('User role undifine');
         }
       } else {
         this.toastr.error('Login failed, please check your credentials.');
       }
-    }, error => {
+    }, (error: any) => {
       this.toastr.error('Login failed, please try again.');
     });
   }

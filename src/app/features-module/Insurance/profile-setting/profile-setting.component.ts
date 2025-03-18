@@ -30,10 +30,10 @@ export class ProfileSettingComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.authService.getId();
-    this.loadLeaveApplications();
+    this.loadProfileData();
   }
 
-  loadLeaveApplications() {
+  loadProfileData() {
     this.leaveService.getEmployees().subscribe((response:any) => {
       this.emp = response?.employees.filter((data: any) => data.id === this.id) 
       if (this.emp) {
