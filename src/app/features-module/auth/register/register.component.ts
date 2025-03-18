@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  id: number;
+  id: string;
   username: string = '';
   password: string = '';
   role: string = '';
@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
   roles: string[] = [];
   email: string = '';
   birthdate: string = '';
+  
   constructor(
     private authService: AuthService,
     private leaveService: LeaveApplicationServiceService,
