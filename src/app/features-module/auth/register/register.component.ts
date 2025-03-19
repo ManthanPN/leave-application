@@ -43,12 +43,12 @@ export class RegisterComponent implements OnInit {
       Email: this.email,
       Birthdate: this.birthdate
     };
-    this.leaveService.getEmployees().subscribe((employees: any[]) => {
-      // const usernameExists = employees.some(emp => emp.username === user.Username);
-      // if (usernameExists) {
-      //   this.toastr.error('Username already exists.');
-      //   return;
-      // } 
+    this.leaveService.getEmployees().subscribe((data: any) => {
+      const usernameExists = data.employees.some((emp:any) => emp.username === user.Username);
+      if (usernameExists) {
+        this.toastr.error('Username already exists.');
+        return;
+      } 
       this.leaveService.Register(user).subscribe(response => {
         if (response) {
           localStorage.setItem('rememberedUsername', user.Username);
