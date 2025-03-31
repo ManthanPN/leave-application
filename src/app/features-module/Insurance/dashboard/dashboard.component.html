@@ -31,8 +31,31 @@
         </div>
       </div>
     </div>
-    <div class="apply-leave">
+    <div class="middle-line">
       <a (click)="openModal()" class="open-modal-link">Apply Leave</a>
+
+      <div class="form-group" *ngIf="this.emp">
+        <label for="typeLeave">Team : {{userTeam}}</label>
+        <!-- <select id="typeLeave" name="typeLeave" required>
+          <option value="" disabled selected>Select assigner</option>
+          <option> Manager </option>
+          <option> Team Leader </option>
+        </select> -->
+      </div>
+
+      <div class="form-group" *ngIf="this.teamleader">
+        <a (click)="openManage()" class="open-modal-link">Manage Leave</a>
+      </div>
+
+      <!-- <div class="form-group" *ngIf="this.teamleader">
+        <a (click)="openManage()" class=""> Manage Leave </a>
+        <a  class=" open-modal-link leave-display-item" *ngFor="let leave of uniqueLeaveApplications;" >
+          <span *ngIf="hasPendingLeaves(leave.username)" class="notification-counter">
+            {{ getPendingLeaveCount(leave.username) }}
+          </span>
+          </a>
+      </div> -->
+
       <div class="dot-view">
         <div class="border-anim">
           <span class="border-anim_line border-anim_line_left"></span>
@@ -45,7 +68,7 @@
         <span class="status-dot pending">Pending</span>
       </div>
     </div>
-
+    
     <div class="modal" [class.show]="isModalOpen">
       <div class="modal-content">
         <span class="close" (click)="closeModal()">

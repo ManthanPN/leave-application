@@ -64,10 +64,11 @@ export class AuthService {
     }
   }
 
-  setSessionStorage(token: string, username: string, role: string, id :string): void {
+  setSessionStorage(token: string, username: string, role: string, team: string, id :string): void {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('username', this.encryptData(username));
-    sessionStorage.setItem('role', this.encryptData(role)); 
+    sessionStorage.setItem('role', this.encryptData(role));
+    sessionStorage.setItem('team', this.encryptData(team));
     sessionStorage.setItem('id', this.encryptData(id));
     this.setLoggedIn(true);
   }
@@ -75,6 +76,11 @@ export class AuthService {
 
   getToken(): string | null {
     return sessionStorage.getItem('token');
+  }
+
+  getTeam(): string | null {
+    const encryptedId =  sessionStorage.getItem('team');
+    return encryptedId ? this.decryptData(encryptedId) : null;
   }
 
   getId(): string | null {

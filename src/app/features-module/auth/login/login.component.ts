@@ -103,6 +103,7 @@ export class LoginComponent implements OnInit {
         const userId = response.employee.id;
         const encryptedUsername = this.authService.encryptData(response.employee.username);
         const encryptedRole = this.authService.encryptData(response.employee.role);
+        const encryptedTeam = this.authService.encryptData(response.employee.team);
 
         if (userId) {
           if (this.username) {
@@ -111,7 +112,7 @@ export class LoginComponent implements OnInit {
             localStorage.removeItem('rememberedUsername');
           }
         }
-
+        
         if (this.rememberMe) {
           localStorage.setItem('authToken', token);
           localStorage.setItem('userId', userId);
@@ -121,14 +122,18 @@ export class LoginComponent implements OnInit {
         }
 
         const encryptedUserId = CryptoJS.AES.encrypt(encryptedUsername, this.authService.encrptSecretKey).toString();
-        this.authService.setSessionStorage(response.token, response.employee.username, response.employee.role, response.employee.id);
+        this.authService.setSessionStorage(response.token, response.employee.username, response.employee.role, response.employee.team, response.employee.id);
         this.authService.setLoggedIn(true);
 
         const role = this.authService.decryptData(encryptedRole);
         const userData = this.authService.decryptData(encryptedUserId);
         if (role === 'Employee') {
           this.router.navigate(['insurance/dashboard'], { queryParams: { data: userData } });
-        } else if (role === 'Manager') {
+        }
+        else if (role === 'Team Leader') {
+          this.router.navigate(['insurance/dashboard'], { queryParams: { data: userData } });
+        } 
+        else if (role === 'Manager') {
           this.router.navigate(['/manage-leave'], { queryParams: { data: userData } });
         } else {
           this.toastr.error('User role undifine');

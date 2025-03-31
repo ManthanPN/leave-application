@@ -4,6 +4,9 @@ import { AuthService } from '../../../service/auth.service';
 import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ManageLeaveComponent } from '../manage-leave/manage-leave.component';
+import { EditManageComponent } from '../edit-manage/edit-manage.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +18,12 @@ export class DashboardComponent implements OnInit {
   @ViewChild(ApplyLeaveComponent) applyLeaveComponent!: ApplyLeaveComponent;
 
   name: string | null = null;
+  userRole: string;
+  userTeam:string;
+  teamleader: any;
+  emp:any;
   // user: any;
+  uniqueLeaveApplications: any[] = [];
   leaveApplications: any[] = [];
   totalAssignedLeave: number = 26;
   totalApprovedLeave: number = 0;
@@ -45,6 +53,7 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -56,8 +65,14 @@ export class DashboardComponent implements OnInit {
         this.name = this.authService.decryptData(params.data);
       }
     });
-
     this.user = this.name;
+    this.userTeam = this.authService.getTeam();
+    this.userRole = this.authService.getRole();
+    if (this.userRole === 'Team Leader') {
+      this.teamleader = this.userRole;
+    } else if (this.userRole === 'Employee') {
+      this.emp = this.userRole;
+    }
     this.loadLeaveApplications();
     this.updateLeaveBalance();
   }
@@ -67,8 +82,21 @@ export class DashboardComponent implements OnInit {
       this.leaveApplications = applications.filter((data: any) => data.username === this.user)
         .sort((a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
       console.log('leave app', this.leaveApplications);
+      this.uniqueLeaveApplications = this.filterUniqueUsernames(applications);
       this.calculateLeaveStats();
       this.applyFiltersAndSorting();
+    });
+  }
+
+  filterUniqueUsernames(applications: any[]): any[] {
+    const seenUsernames = new Set();
+    return applications.filter(leave => {
+      if (seenUsernames.has(leave.username)) {
+        return false;
+      } else {
+        seenUsernames.add(leave.username);
+        return true;
+      }
     });
   }
 
@@ -83,6 +111,33 @@ export class DashboardComponent implements OnInit {
     if (this.applyLeaveComponent) {
       this.applyLeaveComponent.resetForm();
     }
+  }
+
+  openManage(){
+      const modalref = this.modalService.open(EditManageComponent, {
+        backdrop: "static",
+        backdropClass: "modal-on-modal",
+        windowClass: "modal-on-modal-dialog",
+        centered: true,
+        size: 'lg',
+      });
+      // modalref.componentInstance.policyId = this.policyId;
+      // modalref.componentInstance.dataItem = dataItem;
+      // modalref.result.then((data: any) => {
+      //   if (data == true) {
+      //     this.getQuoteList(this.policyId,true);
+      //     this.getQuoteDetail(this.policyId);
+      //    this.getPolicyDiaryList(this.policyInitiatorId);
+      //   }
+      // });
+  }
+
+  hasPendingLeaves(username: string): boolean {
+    return this.uniqueLeaveApplications.some(leave => leave.username === username && leave.status === 'pending');
+  }
+  
+  getPendingLeaveCount(username: string): number {
+    return this.uniqueLeaveApplications.filter(leave => leave.username === username && leave.status === 'pending').length;
   }
 
   /* LEAVE CANCLE */
@@ -177,14 +232,14 @@ export class DashboardComponent implements OnInit {
   getLeaveDays(startDate: string, endDate: string, leaveDuration: string): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    let calLeaves = Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+    let totalDays = Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+
     if (leaveDuration == 'AM' || leaveDuration == 'PM') {
-      return 0.5;
-    }
-    else if (leaveDuration === 'Full Day') {
-      return calLeaves;
+      return totalDays * 0.5;
+    } else if (leaveDuration === 'Full Day') {
+      return totalDays;
     } else {
-      return calLeaves;
+      return totalDays;
     }
   }
 

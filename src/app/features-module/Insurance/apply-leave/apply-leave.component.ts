@@ -30,7 +30,8 @@ export class ApplyLeaveComponent implements OnInit {
   reason: string = '';
   status: string = 'pending';
   user: string | null = '';
-  
+  userTeam: string;
+
   constructor(
     private leaveService: LeaveApplicationServiceService,
     private router: Router,
@@ -48,12 +49,13 @@ export class ApplyLeaveComponent implements OnInit {
 
   ngOnInit(): void {
     this.LeaveType();
-    this.LeaveDuration(); 
+    this.LeaveDuration();
+    this.userTeam = this.authService.getTeam();
     this.user = this.authService.getUsername();
   }
 
   getLeaveApplications(): void {
-    
+
     this.leaveService.getLeaveApplications().subscribe(data => {
     });
   }
@@ -73,12 +75,16 @@ export class ApplyLeaveComponent implements OnInit {
   applyLeave() {
     if (this.leaveForm.valid) {
       this.loadingService.showLoading();
-      
+
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+      let totalDays = Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+
       let leaveDeduction = 0;
       if (this.leaveDuration === 'AM' || this.leaveDuration === 'PM') {
-        leaveDeduction = 0.5;
+        leaveDeduction = totalDays * 0.5;
       } else if (this.leaveDuration === 'Full Day') {
-        leaveDeduction = 1;
+        leaveDeduction = totalDays;
       }
 
       const newLeave = {
@@ -88,6 +94,7 @@ export class ApplyLeaveComponent implements OnInit {
         typeLeave: this.typeLeave,
         leaveDuration: this.leaveDuration,
         reason: this.reason,
+        team: this.userTeam,
         username: this.user,
         status: this.status
       };

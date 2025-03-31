@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ApplyLeaveComponent } from './apply-leave/apply-leave.component';
 import { ProfileSettingComponent } from './profile-setting/profile-setting.component';
 import { ManageLeaveComponent } from './manage-leave/manage-leave.component';
+import { EditManageComponent } from './edit-manage/edit-manage.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ManageLeaveComponent } from './manage-leave/manage-leave.component';
     ManageLeaveComponent,
     ApplyLeaveComponent,
     ProfileSettingComponent,
-    CalendarComponent
+    CalendarComponent,
+    EditManageComponent
   ],
   imports: [
     CommonModule,

@@ -26,6 +26,7 @@
     "@fullcalendar/core": "^6.1.14",
     "@fullcalendar/daygrid": "^6.1.14",
     "@fullcalendar/interaction": "^6.1.14",
+    "@ng-bootstrap/ng-bootstrap": "^15.0.0",
     "@progress/kendo-angular-buttons": "^13.5.0",
     "@progress/kendo-angular-common": "^13.5.0",
     "@progress/kendo-angular-dateinputs": "^13.5.0",

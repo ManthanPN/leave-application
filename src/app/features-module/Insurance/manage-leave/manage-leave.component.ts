@@ -31,14 +31,11 @@ export class ManageLeaveComponent implements OnInit {
   }
 
   loadLeaveApplications() {
+    const role = this.authService.getRole();
+    
     this.leaveService.getLeaveApplications().subscribe(applications => {
       this.leaveApplications = applications;
       this.uniqueLeaveApplications = this.filterUniqueUsernames(applications);
-      // this.leaveApplications.forEach((data:any) => {
-      //   this.leaveDurationTime = data.leaveDuration,
-      //   console.log(`Leave ID: ${data.id}, Duration: ${data.leaveDuration}`);
-      //   console.log('leave duration : ',this.leaveDurationTime);
-      // });
       console.log('leave user', this.leaveApplications);
     });
 
@@ -83,11 +80,11 @@ export class ManageLeaveComponent implements OnInit {
     const end = new Date(endDate);
     let totalDays = Math.floor((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
     if (leaveDuration === 'AM' || leaveDuration === 'PM') {     
-      return 0.5; // Half-day leave
+      return totalDays * 0.5;
     } else if (leaveDuration === 'Full Day') {
-      return totalDays; // Full days leave
+      return totalDays;
     } else {
-      return totalDays; // Default to full day if leaveDuration is missing
+      return totalDays;
     }
   }
 

@@ -20,7 +20,10 @@ export class RegisterComponent implements OnInit {
   roles: string[] = [];
   email: string = '';
   birthdate: string = '';
-  
+
+  teams: string[] = [];
+  selectedTeam: string = '';
+
   constructor(
     private authService: AuthService,
     private leaveService: LeaveApplicationServiceService,
@@ -29,9 +32,27 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getRoles();
+    this.getTeams(); 
+  }
+
+  getRoles() {
     this.leaveService.getRoles().subscribe(roles => {
       this.roles = roles;
     });
+  }
+
+  getTeams() {
+    this.leaveService.getTeams().subscribe(teams => {
+      this.teams = teams;
+    });
+  };
+
+  onRoleChange(event: any) {
+    this.role = event.target.value;
+    if (this.role === 'Employee' || 'Team Leader') {
+      this.selectedTeam = ''; 
+    }
   }
 
   Register(): void {
@@ -39,6 +60,7 @@ export class RegisterComponent implements OnInit {
       Username: this.username,
       Password: this.password,
       Role: this.role,
+      Team: this.role === 'Employee' || 'Team Leader' ? this.selectedTeam : null,
       LeaveDays: this.leaveDays,
       Email: this.email,
       Birthdate: this.birthdate

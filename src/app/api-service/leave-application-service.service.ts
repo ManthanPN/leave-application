@@ -24,7 +24,7 @@ export class LeaveApplicationServiceService {
 
   getLeaveApplication() {
     return this.http.get('/api/leave-applications').pipe(
-      (error:any) => {
+      (error: any) => {
         if (error.status === 401) {
           this.authService.logout();
           alert('Session expired. Please log in again.');
@@ -59,13 +59,17 @@ export class LeaveApplicationServiceService {
     return this.http.get<any>(`${this.apiUrl}/roles`, { headers: this.getHeaders() });
   }
 
+  getTeams(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/GetTeams`, { headers: this.getHeaders() });
+  }
+
   addLeave(leave: any): Observable<any> {
     return this.http.post<any>(`${this.apiLeaveUrl}/AddLeave`, leave);
   }
 
   getLeaveApplications(): Observable<any> {
     return this.http.get<any>(`${this.apiLeaveUrl}/GetLeaveApplications`, { headers: this.getHeaders() }).pipe(
-      (error:any) => {
+      (error: any) => {
         if (error.status === 401) {
           this.authService.logout();
           alert('Session expired. Please log in again.');

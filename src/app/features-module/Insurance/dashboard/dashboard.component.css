@@ -304,10 +304,31 @@ h1 {
   background-color: #0056b3;
 }
 
-.apply-leave {
+.form-group {
+  flex: 1;
+  box-sizing: border-box;
+  cursor: default;
+  display: flex;
+  padding-inline: 40px;
+  justify-content: space-around;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.middle-line {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .open-modal-link {
@@ -576,4 +597,55 @@ h1 {
 .fc-daygrid-day-number {
   font-size: 0.9em;
   padding: 5px;
+}
+
+.notification-counter {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 4px 7px;
+  font-size: 12px;
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  display: inline-block;
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Ensures the Manage Leave button has proper spacing */
+.open-modal-link {
+  position: relative; /* Required for notification positioning */
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.open-modal-link:hover {
+  background-color: #0056b3;
+}
+
+/* Ensures consistency with manage-leave.html */
+.leave-display-item {
+  cursor: pointer;
+  padding-inline: 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 0.1px solid #d8d8d8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: filter 0.3s ease;
+  position: relative;
+}
+
+.leave-display-item:hover {
+  border: 0.1px solid #212529;
+  color: #212529;
 }
