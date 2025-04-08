@@ -3,27 +3,42 @@
     <h4 class="modal-title">Manage {{ userTeam }} Team Leaves</h4>
     <span class="close material-symbols-outlined cursor-pointer" (click)="closeDialog()">&#10006;</span>
   </div>
-
   <div class="modal-body">
-    <div *ngIf="leaveApplications.length > 0; else noLeaves">
+    <ul class="user-list">
+      <a *ngFor="let leave of uniqueLeaveApplications; let i = index" (click)="toggleLeaveDetails(leave.username)">
+        <li class="leave-display-item" [class.selected]="selectedUsername === leave.username"
+          [class.new-user]="isNewUser(leave.username)">
+          <div class="leave-display-info">
+            <p class="label"><strong>{{ leave.username }}</strong></p>
+            <p class="b"><strong><span style="font-size: 40px;">{{ getTotalLeaveDays(leave.username) }}</span></strong>
+              Day(s)</p>
+            <span *ngIf="hasPendingLeaves(leave.username)" class="notification-counter">
+              {{ getPendingLeaveCount(leave.username) }}
+            </span>
+          </div>
+        </li>
+      </a>
+    </ul>
+    <div class="leave-item" *ngIf="leaveApplications.length > 0">
       <table class="table table-striped">
         <thead>
-          <tr>
+          <tr class="table-data">
             <th>Employee</th>
             <th>Leave Days</th>
             <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let leave of leaveApplications">
+          <tr class="leave-item" *ngFor="let leave of leaveApplications" [hidden]="selectedUsername !== leave.username">
             <td>{{ leave.username }}</td>
             <td>{{ getLeaveDays(leave.startDate, leave.endDate, leave.leaveDuration) }}</td>
             <td>{{ leave.status }}</td>
             <td class="leave-info">
-              <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'" 
-                      (click)="approveLeave(leave.id)" class="btn btn-success btn-sm">Approve</button>
-              <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'" 
-                      (click)="rejectLeave(leave.id)" class="btn btn-danger btn-sm">Reject</button>
+              <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'"
+                (click)="approveLeave(leave.id)" class="btn btn-success btn-sm">Approve</button>
+              <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'" (click)="rejectLeave(leave.id)"
+                class="btn btn-danger btn-sm">Reject</button>
               <button (click)="deleteLeave(leave.id)" class="btn btn-sm delete-btn">
                 <i class="fa fa-trash"></i>
               </button>
@@ -31,11 +46,8 @@
           </tr>
         </tbody>
       </table>
+      <span class="leave-no-data" *ngIf="!selectedUsername">No Leaves here, Please select employee !!</span>
     </div>
-
-    <ng-template #noLeaves>
-      <p>No leave requests for {{ userTeam }} team.</p>
-    </ng-template>
   </div>
 
   <div class="modal-footer">

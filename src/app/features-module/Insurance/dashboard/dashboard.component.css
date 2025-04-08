@@ -599,53 +599,43 @@ h1 {
   padding: 5px;
 }
 
+.notification-container {
+  position: fixed;
+  top: 10px;
+  right: 50px;
+  background: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.modal-xl .modal-lg {
+  max-width: 90%;
+}
+
+/* Notification bell icon */
+.notification-icon {
+  font-size: 22px;
+  color: #ff4d4d;
+}
+
+/* Notification counter on top of the bell */
 .notification-counter {
+  position: absolute;
+  top: -5px;
+  right: -5px;
   background-color: red;
   color: white;
   border-radius: 50%;
   padding: 4px 7px;
   font-size: 12px;
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  display: inline-block;
-  min-width: 20px;
+  min-width: 18px;
   text-align: center;
   font-weight: bold;
-}
-
-/* Ensures the Manage Leave button has proper spacing */
-.open-modal-link {
-  position: relative; /* Required for notification positioning */
-  display: inline-block;
-  background-color: #007bff;
-  color: white;
-  padding: 8px 15px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.open-modal-link:hover {
-  background-color: #0056b3;
-}
-
-/* Ensures consistency with manage-leave.html */
-.leave-display-item {
-  cursor: pointer;
-  padding-inline: 20px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: 0.1px solid #d8d8d8;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: filter 0.3s ease;
-  position: relative;
-}
-
-.leave-display-item:hover {
-  border: 0.1px solid #212529;
-  color: #212529;
 }

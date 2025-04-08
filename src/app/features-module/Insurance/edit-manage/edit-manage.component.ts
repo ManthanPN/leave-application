@@ -15,19 +15,27 @@ export class EditManageComponent {
   userRole: string;
   leaveApplications: any[] = [];
   uniqueLeaveApplications: any[] = [];
+  selectedUsername: string = '';
 
   constructor(
     private leaveService: LeaveApplicationServiceService,
     private activeModal: NgbActiveModal,
     private authService: AuthService,
     private toastr: ToastrService,
-    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.userTeam = this.authService.getTeam();
     this.userRole = this.authService.getRole();
     this.loadLeaveApplications();
+  }
+
+  isNewUser(username: string): boolean {
+    return this.leaveApplications.some(leave => leave.username === username && leave.status === '');
+  }
+
+  toggleLeaveDetails(username: string) {
+    this.selectedUsername = (this.selectedUsername === username) ? '' : username;
   }
 
   loadLeaveApplications() {
@@ -45,14 +53,6 @@ export class EditManageComponent {
       console.log('Filtered Leave Applications:', this.leaveApplications);
     });
   }
- 
-  // loadLeaveApplications() {
-  //   this.leaveService.getLeaveApplications().subscribe(applications => {
-  //     this.leaveApplications = applications.filter((app: any) => app.team === this.userTeam);
-  //     this.uniqueLeaveApplications = this.filterUniqueUsernames(this.leaveApplications);
-  //     console.log('Filtered Leave Applications:', this.leaveApplications);
-  //   });
-  // }
 
   filterUniqueUsernames(applications: any[]): any[] {
     const seenUsernames = new Set();
@@ -112,6 +112,15 @@ export class EditManageComponent {
     }
   }
 
+  getTotalLeaveDays(username: string): number {
+    return this.leaveApplications.reduce((total, leave) => {
+      if (leave.username === username && leave.status === 'approved') {
+        return total + this.getLeaveDays(leave.startDate, leave.endDate, leave.leaveDuration);
+      }
+      return total;
+    }, 0);
+  }
+
   getLeaveDays(startDate: string, endDate: string, leaveDuration: string): number {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -123,6 +132,14 @@ export class EditManageComponent {
     } else {
       return totalDays;
     }
+  }
+
+  hasPendingLeaves(username: string): boolean {
+    return this.leaveApplications.some(leave => leave.username === username && leave.status === 'pending');
+  }
+
+  getPendingLeaveCount(username: string): number {
+    return this.leaveApplications.filter(leave => leave.username === username && leave.status === 'pending').length;
   }
 
   closeDialog() {

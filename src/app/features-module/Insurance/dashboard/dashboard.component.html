@@ -36,25 +36,18 @@
 
       <div class="form-group" *ngIf="this.emp">
         <label for="typeLeave">Team : {{userTeam}}</label>
-        <!-- <select id="typeLeave" name="typeLeave" required>
-          <option value="" disabled selected>Select assigner</option>
-          <option> Manager </option>
-          <option> Team Leader </option>
-        </select> -->
       </div>
 
       <div class="form-group" *ngIf="this.teamleader">
         <a (click)="openManage()" class="open-modal-link">Manage Leave</a>
       </div>
-
-      <!-- <div class="form-group" *ngIf="this.teamleader">
-        <a (click)="openManage()" class=""> Manage Leave </a>
-        <a  class=" open-modal-link leave-display-item" *ngFor="let leave of uniqueLeaveApplications;" >
-          <span *ngIf="hasPendingLeaves(leave.username)" class="notification-counter">
-            {{ getPendingLeaveCount(leave.username) }}
-          </span>
-          </a>
-      </div> -->
+      
+      <div class="notification-container" *ngIf="this.DataMember && getTotalPendingLeaves()" >
+        <i class="fa fa-bell notification-icon"></i>
+        <span class="notification-counter">
+          {{ getTotalPendingLeaves() }}
+        </span>
+      </div>
 
       <div class="dot-view">
         <div class="border-anim">

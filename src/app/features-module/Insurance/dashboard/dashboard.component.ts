@@ -5,7 +5,6 @@ import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ManageLeaveComponent } from '../manage-leave/manage-leave.component';
 import { EditManageComponent } from '../edit-manage/edit-manage.component';
 
 @Component({
@@ -17,12 +16,17 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild(ApplyLeaveComponent) applyLeaveComponent!: ApplyLeaveComponent;
 
+  emp: any;
+  user: string | null = '';
   name: string | null = null;
+
   userRole: string;
-  userTeam:string;
+  userTeam: string;
   teamleader: any;
-  emp:any;
-  // user: any;
+  teamAngular: any[];
+  teamDotnet: any[];
+  DataMember: any;
+
   uniqueLeaveApplications: any[] = [];
   leaveApplications: any[] = [];
   totalAssignedLeave: number = 26;
@@ -46,7 +50,7 @@ export class DashboardComponent implements OnInit {
   selectedStatus = 'all';
   filteredApplications: any[] = [];
   currentFilter = '';
-  user: string | null = '';
+
   constructor(
     private leaveService: LeaveApplicationServiceService,
     private authService: AuthService,
@@ -75,10 +79,20 @@ export class DashboardComponent implements OnInit {
     }
     this.loadLeaveApplications();
     this.updateLeaveBalance();
+    this.loadEmployee();
+  }
+
+  loadEmployee() {
+    this.leaveService.getEmployees().subscribe((data: any) => {
+      const empData = data.employees.filter((data: any) => data.team);
+      this.teamAngular = empData.filter((data: any) => data.team === 'angular');
+      this.teamDotnet = empData.filter((data: any) => data.team === 'dotnet');
+    })
   }
 
   loadLeaveApplications() {
     this.leaveService.getLeaveApplications().subscribe((applications: any[]) => {
+      this.leaveApplications
       this.leaveApplications = applications.filter((data: any) => data.username === this.user)
         .sort((a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
       console.log('leave app', this.leaveApplications);
@@ -113,31 +127,31 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  openManage(){
-      const modalref = this.modalService.open(EditManageComponent, {
-        backdrop: "static",
-        backdropClass: "modal-on-modal",
-        windowClass: "modal-on-modal-dialog",
-        centered: true,
-        size: 'lg',
-      });
-      // modalref.componentInstance.policyId = this.policyId;
-      // modalref.componentInstance.dataItem = dataItem;
-      // modalref.result.then((data: any) => {
-      //   if (data == true) {
-      //     this.getQuoteList(this.policyId,true);
-      //     this.getQuoteDetail(this.policyId);
-      //    this.getPolicyDiaryList(this.policyInitiatorId);
-      //   }
-      // });
+  openManage() {
+    const modalref = this.modalService.open(EditManageComponent, {
+      backdrop: "static",
+      backdropClass: "modal-on-modal",
+      windowClass: "modal-on-modal-dialog",
+      centered: true,
+      size: 'xl',
+    });
   }
 
-  hasPendingLeaves(username: string): boolean {
-    return this.uniqueLeaveApplications.some(leave => leave.username === username && leave.status === 'pending');
-  }
-  
-  getPendingLeaveCount(username: string): number {
-    return this.uniqueLeaveApplications.filter(leave => leave.username === username && leave.status === 'pending').length;
+  getTotalPendingLeaves(): number {
+    if (this.userRole === 'Employee') {
+      this.DataMember = this.uniqueLeaveApplications.filter(leave => this.teamAngular && leave.status === 'pending').length;
+    }
+    else if (this.userRole === 'Employee') {
+      this.DataMember = this.uniqueLeaveApplications.filter(leave => this.teamDotnet && leave.status === 'pending').length;
+    }
+    return this.DataMember;
+
+    // if (this.userRole === 'Team Leader') {
+    //   return this.leaveApplications.filter(
+    //     (leave) => leave.status === 'pending' && leave.team === this.userTeam
+    //   ).length;
+    // }
+    // return 0;
   }
 
   /* LEAVE CANCLE */
