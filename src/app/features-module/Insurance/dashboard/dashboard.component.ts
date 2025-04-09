@@ -62,7 +62,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     const getUser = this.authService.getId();
-    // console.log('user', getUser);
     this.route.queryParams.subscribe(params => {
       if (params.data) {
         this.name = this.authService.decryptData(params.data);
