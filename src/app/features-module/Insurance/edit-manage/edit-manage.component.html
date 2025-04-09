@@ -31,10 +31,10 @@
         </thead>
         <tbody>
           <tr class="leave-item" *ngFor="let leave of leaveApplications" [hidden]="selectedUsername !== leave.username">
-            <td>{{ leave.username }}</td>
-            <td>{{ getLeaveDays(leave.startDate, leave.endDate, leave.leaveDuration) }}</td>
-            <td>{{ leave.status }}</td>
-            <td class="leave-info">
+            <td class="leave-info">{{ leave.username }}</td>
+            <td class="leave-info">{{ getLeaveDays(leave.startDate, leave.endDate, leave.leaveDuration) }}</td>
+            <td class="leave-info">{{ leave.status }}</td>
+            <td class="leave-action">
               <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'"
                 (click)="approveLeave(leave.id)" class="btn btn-success btn-sm">Approve</button>
               <button *ngIf="leave.status !== 'approved' && leave.status !== 'rejected'" (click)="rejectLeave(leave.id)"

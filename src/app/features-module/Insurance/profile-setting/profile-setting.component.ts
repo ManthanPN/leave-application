@@ -34,10 +34,13 @@ export class ProfileSettingComponent implements OnInit {
   }
 
   loadProfileData() {
-    this.leaveService.getEmployees().subscribe((response:any) => {
-      this.emp = response?.employees.filter((data: any) => data.id === this.id) 
+    this.leaveService.getEmployees().subscribe((response: any) => {
+      this.emp = response?.employees.filter((data: any) => data.id === this.id)
       if (this.emp) {
+        // debugger
         this.user = this.emp[0];
+        console.log(this.user);
+
         this.setForm();
       } else {
         this.toastr.error('User not found');
@@ -56,7 +59,7 @@ export class ProfileSettingComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.userForm.valid){
+    if (this.userForm.valid) {
       this.loadingService.showLoading();
 
       if (this.userForm.value.password !== this.userForm.value.confirmPassword) {
@@ -69,18 +72,18 @@ export class ProfileSettingComponent implements OnInit {
         username: this.userForm.value.username,
         password: this.userForm.value.password,
         email: this.userForm.value.email,
-        birthdate: this.userForm.value.birthdate
+        birthdate: this.userForm.value.birthdate,
       };
 
       this.leaveService.updateUser(updatedProfile).subscribe(() => {
-          sessionStorage.setItem('user', JSON.stringify(updatedProfile));
-          this.authService.updateUserInfo(updatedProfile.username, updatedProfile.password, updatedProfile.email, updatedProfile.birthdate);
-          this.profileUpdated.emit(updatedProfile);
-          setTimeout(() => {
-            this.loadingService.hideLoading();
-            this.toastr.success('Profile updated successfully');
-          }, Math.random() * 1000 + 1000);
-        },
+        sessionStorage.setItem('user', JSON.stringify(updatedProfile));
+        this.authService.updateUserInfo(updatedProfile.username, updatedProfile.password, updatedProfile.email, updatedProfile.birthdate);
+        this.profileUpdated.emit(updatedProfile);
+        setTimeout(() => {
+          this.loadingService.hideLoading();
+          this.toastr.success('Profile updated successfully');
+        }, Math.random() * 1000 + 1000);
+      },
         (error: any) => {
           this.toastr.error('Error updating profile');
           this.loadingService.hideLoading();

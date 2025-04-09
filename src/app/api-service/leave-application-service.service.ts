@@ -67,6 +67,11 @@ export class LeaveApplicationServiceService {
     return this.http.post<any>(`${this.apiLeaveUrl}/AddLeave`, leave);
   }
 
+  
+  updateUser(updatedProfile: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/UpdateUser`,updatedProfile,{ headers: this.getHeaders() });
+  }
+
   getLeaveApplications(): Observable<any> {
     return this.http.get<any>(`${this.apiLeaveUrl}/GetLeaveApplications`, { headers: this.getHeaders() }).pipe(
       (error: any) => {
@@ -99,10 +104,4 @@ export class LeaveApplicationServiceService {
     return this.http.get<any>(`${this.apiLeaveUrl}/GetLeaveDurations`, { headers: this.getHeaders() });
   }
 
-  updateUser(updatedProfile: any): Observable<any> {
-    return this.http.put(
-      `${this.apiUrl}/UpdateUser`,
-      updatedProfile,
-      { headers: this.getHeaders() });
-  }
 }

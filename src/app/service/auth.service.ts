@@ -17,7 +17,7 @@ export class AuthService {
 
   constructor(private router: Router) {
     this.startTokenCheck();
-   }
+  }
 
   isTokenValid(token: string): boolean {
     try {
@@ -37,7 +37,7 @@ export class AuthService {
           alert('Your session has expired. Please log in again.');
           this.logout();
         }, 500);
-       
+
       }
     }, 30000);
   }
@@ -52,7 +52,7 @@ export class AuthService {
   encryptData(data: any): any {
     return CryptoJS.AES.encrypt(JSON.stringify(data), this.encrptSecretKey).toString();
   }
-  
+
   decryptData(value: string): any {
     const bytes = CryptoJS.AES.decrypt(value, this.encrptSecretKey);
     const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
@@ -64,7 +64,7 @@ export class AuthService {
     }
   }
 
-  setSessionStorage(token: string, username: string, role: string, team: string, id :string): void {
+  setSessionStorage(token: string, username: string, role: string, team: string, id: string): void {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('username', this.encryptData(username));
     sessionStorage.setItem('role', this.encryptData(role));
@@ -79,7 +79,7 @@ export class AuthService {
   }
 
   getTeam(): string | null {
-    const encryptedId =  sessionStorage.getItem('team');
+    const encryptedId = sessionStorage.getItem('team');
     return encryptedId ? this.decryptData(encryptedId) : null;
   }
 
@@ -102,6 +102,10 @@ export class AuthService {
     const user = { username, password, email, birthdate };
     sessionStorage.setItem('user', JSON.stringify(user));
   }
+  // updateUserInfo(username: string, password: string, team?: string, email?: string, birthdate?: string): void {
+  //   const user = { username, password, team, email, birthdate };
+  //   sessionStorage.setItem('user', JSON.stringify(user));
+  // }
 
   clearSessionStorage(): void {
     sessionStorage.removeItem('token');
